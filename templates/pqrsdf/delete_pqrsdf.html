@@ -1,0 +1,8 @@
+{% extends 'index.html' %} {% block body %}
+<form method="POST">
+  {% csrf_token %}
+  <h2>¿Desea eliminar la {{pqrsdf.type_pqrsdf}}</h2>
+  <button type="submit">Eliminar</button>
+  <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
+</form>
+{% endblock body %}

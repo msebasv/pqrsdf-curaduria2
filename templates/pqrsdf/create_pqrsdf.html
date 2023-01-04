@@ -1,0 +1,9 @@
+{% extends 'index.html' %} {% block body %}
+<form method="POST">
+  {% csrf_token %} {% if error%}
+  <h2>{{error}}</h2>
+  {% else %} {{ pqrsdf_form.as_p }}
+  <button type="submit">Guardar</button>
+  {% endif %}
+</form>
+{% endblock body %}

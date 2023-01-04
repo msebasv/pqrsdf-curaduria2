@@ -1,0 +1,29 @@
+{% extends 'index.html' %} {% block body %} {% if pqrsdfs %}
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Tipo de Pqrsdf</th>
+      <th>Fecha de creación</th>
+      <th>Anonimo</th>
+      <th>Opciones</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for pqrsdf in pqrsdfs %}
+    <tr>
+      <td>{{pqrsdf.id}}</td>
+      <td>{{pqrsdf.type_pqrsdf}}</td>
+      <td>{{pqrsdf.date_pqrsdf}}</td>
+      <td>{{pqrsdf.type_anonymous}}</td>
+      <td>
+        <a href="{% url 'pqrsdf:update_pqrsdf' pqrsdf.id %}">Editar</a>
+        <a href="{% url 'pqrsdf:delete_pqrsdf' pqrsdf.id %}">Eliminar</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+{% else %}
+<h1>No existe Pqrsdf</h1>
+{% endif %} {% endblock body %}
