@@ -1,0 +1,58 @@
+{% extends 'index.html' %}{%load static%} {% block body %} {% block dashboard %}
+<aside id="left-panel" class="left-panel">
+  <nav class="navbar navbar-expand-sm navbar-default">
+    <div id="main-menu" class="main-menu collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="{% url 'dashboard' %}"
+            ><i class="menu-icon fa fa-laptop"></i>Dashboard
+          </a>
+        </li>
+        <li class="menu-title">Consultas</li>
+        <li>
+          <a href="{% url 'pqrsdf:get_pqrsdfs' %}"
+            ><i class="menu-icon fa fa-cogs"></i>PQRSDF
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</aside>
+<div id="right-panel" class="right-panel">
+  <header id="header" class="header">
+    <div class="top-left">
+      <div class="navbar-header">
+        <a class="navbar-brand" href="./"
+          ><img src={% static 'img/logoCuraduria.png' %} alt="Logo"></a
+        >
+      </div>
+    </div>
+    <div class="top-right">
+      <div class="header-menu">
+        <div class="user-area dropdown float-right">
+          <a
+            class="dropdown-toggle active"
+            data-toggle="dropdown"
+            aria-haspopup="true"
+            aria-expanded="false"
+            data-bs-toggle="dropdown"
+          >
+            <i class="fa fa-user-circle fa-3x"></i>
+          </a>
+          <div class="user-menu dropdown-menu">
+            <a class="nav-link" href="#"
+              ><i class="fa fa-user" disabled></i>Usuario 1</a
+            >
+            <a class="nav-link" href="#"
+              ><i class="fa fa-power-off"></i>Logout</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  {% endblock dashboard %}
+  <div class="content">{% block content %} {% endblock content %}</div>
+  <!-- Esto es un comentario -->
+  {% endblock body %}
+</div>

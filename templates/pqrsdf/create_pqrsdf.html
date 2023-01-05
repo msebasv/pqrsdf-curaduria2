@@ -1,9 +1,36 @@
-{% extends 'index.html' %} {% block body %}
-<form method="POST">
+{% extends 'dashboard.html' %} {% load static %}<!-- Esto es un comentario -->
+{% block content %}
+<div class="card-body card-block">
+  <form method="post" class="form-horizontal">
+    <div class="row form-group">
+      <div class="col col-md-3">
+        <label for="text-input" class="form-control-label"
+          >{{pqrsdf_form.type_pqrsdf.label}}</label
+        >
+      </div>
+      <div class="col-12 col-md-9">
+        <select name="select" id="select" class="form-control">
+          <option value="{{pqrsdf_form.type_pqrsdf}}" />
+        </select>
+      </div>
+      <div class="col col-md-3">
+        <label for="text-input" class="form-control-label"
+          >{{pqrsdf_form.type_anonymous.label}}</label
+        >
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %} {% comment %}
+<form method="POST" class="form-horizontal">
   {% csrf_token %} {% if error%}
   <h2>{{error}}</h2>
-  {% else %} {{ pqrsdf_form.as_p }}
+  {% else %}
+  <div class="row form-group">
+    <div class="col-12 col-md-9">{{ pqrsdf_form.as_p }}</div>
+  </div>
   <button type="submit">Guardar</button>
+  <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
   {% endif %}
 </form>
-{% endblock body %}
+{% endcomment %}

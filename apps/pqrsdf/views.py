@@ -1,12 +1,34 @@
 from django.shortcuts import render, redirect
 from django.core.exceptions import ObjectDoesNotExist
+from django.db.models import Q
+from django.core.paginator import Paginator
+from django.views.generic import TemplateView, ListView
 from .forms import PqrsdfForm
 from .models import Pqrsdf
 # Create your views here.
 
 
-def Home(request):
-    return render(request, 'index.html')
+class Home(TemplateView):
+    template_name = 'index.html'
+
+
+# def Home(request):
+#     return render(request, 'index.html')
+
+
+def Login(request):
+    return render(request, 'login.html')
+
+
+def Dashboard(request):
+    return render(request, 'dashboard.html')
+
+
+class GetPqrsdfs(ListView):
+    model = Pqrsdf
+    template_name = 'pqrsdf/get_pqrsdfs.html'
+    context_object_name = 'pqrsdfs'
+    queryset = Pqrsdf.objects.filter(active=True)
 
 
 def createPqrsdf(request):
@@ -20,9 +42,20 @@ def createPqrsdf(request):
     return render(request, 'pqrsdf/create_pqrsdf.html', {'pqrsdf_form': pqrsdf_form})
 
 
-def getPqrsdfs(request):
-    pqrsdfs = Pqrsdf.objects.filter(active=True)
-    return render(request, 'pqrsdf/get_pqrsdfs.html',  {'pqrsdfs': pqrsdfs})
+# def getPqrsdfs(request):
+#     queryset = request.GET.get("search")
+#     pqrsdfs = Pqrsdf.objects.filter(active=True)
+#     if queryset:
+#         pqrsdfs = Pqrsdf.objects.filter(
+#             Q(type_pqrsdf__icontains=queryset),
+#             active=True
+#         ).distinct()
+#     # Recibe el objeto, y cuanto quiere mostrar por página
+#     paginator = Paginator(pqrsdfs, 10)
+#     page = request.GET.get('page')  # Obtiene la página actual
+#     # Recibe el valor de la página y carga las pqrsdf correspondientes a esa página
+#     pqrsdfs = paginator.get_page(page)
+#     return render(request, 'pqrsdf/get_pqrsdfs.html',  {'pqrsdfs': pqrsdfs})
 
 
 def updatePqrsdf(request, id):

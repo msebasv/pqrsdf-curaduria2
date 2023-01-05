@@ -1,29 +1,104 @@
-{% extends 'index.html' %} {% block body %} {% if pqrsdfs %}
-<table>
-  <thead>
-    <tr>
-      <th>#</th>
-      <th>Tipo de Pqrsdf</th>
-      <th>Fecha de creación</th>
-      <th>Anonimo</th>
-      <th>Opciones</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for pqrsdf in pqrsdfs %}
-    <tr>
-      <td>{{pqrsdf.id}}</td>
-      <td>{{pqrsdf.type_pqrsdf}}</td>
-      <td>{{pqrsdf.date_pqrsdf}}</td>
-      <td>{{pqrsdf.type_anonymous}}</td>
-      <td>
-        <a href="{% url 'pqrsdf:update_pqrsdf' pqrsdf.id %}">Editar</a>
-        <a href="{% url 'pqrsdf:delete_pqrsdf' pqrsdf.id %}">Eliminar</a>
-      </td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% else %}
-<h1>No existe Pqrsdf</h1>
-{% endif %} {% endblock body %}
+{% extends 'dashboard.html' %}{% load static %}<!-- Esto es un comentario -->
+{% block content %} {% if pqrsdfs %}
+<div class="container-search">
+  <div class="row">
+    <div class="col-md-8 create">
+      <a href="{% url 'pqrsdf:create_pqrsdf' %}">
+        <button type="button" class="btn btn-danger">Crear pqrsdf</button>
+      </a>
+    </div>
+    <div class="col-md-4 search">
+      <form method="GET">
+        <div id="custom-search-input">
+          <div class="input-group col-md-12">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Buscar"
+              name="search"
+              value="{{request.GET.search}}"
+            />
+            <span class="input-group-list">
+              <i class="icon icon-search"></i>
+              <button type="submit" class="btn btn-success">Buscar</button>
+              <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<div class="table-stats order-table ov-h">
+  <table id="bootstrap-data-table" class="table table-striped table-bordered">
+    <thead>
+      <tr>
+        <th class="serial">#</th>
+        <th>Tipo</th>
+        <th>Fecha de Creación</th>
+        <th>Anónimo</th>
+        <th>Estado</th>
+        <th>Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for pqrsdf in pqrsdfs %}
+      <tr>
+        <td class="serial">{{pqrsdf.id}}</td>
+        <td>{{pqrsdf.type_pqrsdf}}</td>
+        <td>{{pqrsdf.date_pqrsdf}}</td>
+        <td>{{pqrsdf.type_anonymous}}</td>
+        <td>
+          <span class="badge badge-complete">Finalizado</span>
+          <span class="badge badge-pending">Elaboración</span>
+        </td>
+        <td>
+          <a href="{% url 'pqrsdf:update_pqrsdf' pqrsdf.id %}">Editar</a>
+          <a href="{% url 'pqrsdf:delete_pqrsdf' pqrsdf.id %}">Eliminar</a>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <nav aria-label="Page navigation example">
+    <ul class="pagination">
+      {% if pqrsdfs.has_previous%}
+      <li class="page-item">
+        <a
+          class="page-link"
+          href="?page={{ pqrsdfs.previous_page_number}}{% if request.GET.search %}&q={{request.GET.search}}{% endif %}"
+          aria-label="Previous"
+        >
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item" disabled>
+        <a class="page-link" aria-label="Previous">
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+      {% endif %} {% if pqrsdfs.has_next%}
+      <li class="page-item">
+        <a
+          class="page-link"
+          href="?page={{ pqrsdfs.next_page_number}}{% if request.GET.search %}&q={{request.GET.search}}{% endif %}"
+          aria-label="Next"
+        >
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% else %}
+      <li class="page-item" disabled>
+        <a class="page-link" aria-label="next">
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </nav>
+
+  {% else %}
+  <h1>No existe Pqrsdf</h1>
+</div>
+{% endif %} {% endblock content %}
