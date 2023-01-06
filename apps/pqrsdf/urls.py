@@ -1,8 +1,12 @@
 from django.urls import path
-from .views import createPqrsdf, GetPqrsdfs, updatePqrsdf, deletePqrsdf
+from django.contrib.auth.decorators import login_required
+from .views import createPqrsdf, CreatePqrsdf, GetPqrsdfs, updatePqrsdf, UpdatePqrsdf, DeletePqrsdf, deletePqrsdf
 urlpatterns = [
-    path('create_pqrsdf/', createPqrsdf, name="create_pqrsdf"),
-    path('get_pqrsdfs/', GetPqrsdfs.as_view(), name="get_pqrsdfs"),
-    path('update_pqrsdf/<int:id>', updatePqrsdf, name="update_pqrsdf"),
-    path('delete_pqrsdf/<int:id>', deletePqrsdf, name="delete_pqrsdf")
+    path('create_pqrsdf/', login_required(CreatePqrsdf.as_view()),
+         name="create_pqrsdf"),
+    path('get_pqrsdfs/', login_required(GetPqrsdfs.as_view()), name="get_pqrsdfs"),
+    path('update_pqrsdf/<int:pk>',
+         login_required(UpdatePqrsdf.as_view()), name="update_pqrsdf"),
+    path('delete_pqrsdf/<int:pk>',
+         login_required(DeletePqrsdf.as_view()), name="delete_pqrsdf")
 ]

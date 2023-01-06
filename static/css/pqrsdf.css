@@ -786,12 +786,20 @@ aside.left-panel:hover {
     margin: 0;
     padding: 0;
     vertical-align: top;
+    width: 100%;
+}
+
+.navbar-expand-lg .navbar-collapse {
+    margin: 10px;
+    justify-content: space-between !important;
 }
 
 .navbar .main-menu {
     float: left;
     padding: 0;
     padding-bottom: 50px;
+    width: 100%;
+    justify-content: space-between !important;
 }
 
 .navbar .menu-title {
@@ -810,6 +818,7 @@ aside.left-panel:hover {
 .navbar .navbar-nav {
     float: none;
     position: relative;
+    margin: 0 !important;
 }
 
 .navbar .navbar-nav>li {
@@ -822,7 +831,7 @@ aside.left-panel:hover {
 }
 
 .navbar .navbar-nav li {
-    width: 100%;
+    /* width: 100%; */
 }
 
 .navbar .navbar-nav li.active .menu-icon,
@@ -1442,6 +1451,16 @@ header .form-inline .search-form.close {
     -webkit-box-pack: end;
     -ms-flex-pack: end;
     justify-content: flex-end;
+}
+
+.header-menu .text-user-navbar {
+    display: flex;
+    align-items: center;
+
+}
+
+.header-menu .text-user-navbar p.user-navbar {
+    margin: auto;
 }
 
 .header-menu .dropdown {
@@ -3345,7 +3364,15 @@ footer.site-footer .footer-inner a {
 
 @media (max-width: 768px) {
     .navbar {
-        height: 100vh;
+        /* height: 100vh; */
+    }
+
+    .navbar .navbar-toggler {
+        margin: 10px;
+    }
+
+    .navbar .navbar-brand {
+        display: none;
     }
 
     .navbar .navbar-nav li.menu-item-has-children>a:before {
@@ -3486,3 +3513,7 @@ footer.site-footer .footer-inner a {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+.navbar-brand img {
+    width: 250px;
+}

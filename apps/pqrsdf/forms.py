@@ -17,6 +17,48 @@ class PqrsdfForm(forms.ModelForm):
             'number_contact': 'Número de contacto',
             'description': 'Descripción'
         }
+        widgets = {
+            'type_pqrsdf': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'type_anonymous': forms.CheckboxInput(
+                attrs={
+                    'class': 'form-check-input'
+                }
+            ),
+            'name': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'type_identification': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'identification': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'medium_contact': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'number_contact': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'description': forms.Textarea(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+        }
         # widgets = {
         #     'type_pqrsdf': forms.CharField(
         #         widget=forms.Select(choices=CHOICES)

@@ -1,5 +1,17 @@
 {% extends 'dashboard.html' %} {% load static %}<!-- Esto es un comentario -->
 {% block content %}
+<form method="POST" class="form-horizontal">
+  {% csrf_token %} {% if error%}
+  <h2>{{error}}</h2>
+  {% else %}
+  <div class="row form-group">
+    <div class="col-12 col-md-12">{{ form.as_p }}</div>
+  </div>
+  <button type="submit" class="btn btn-success">Guardar</button>
+  <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
+  {% endif %}
+</form>
+{% endblock content %} {% comment %}
 <div class="card-body card-block">
   <form method="post" class="form-horizontal">
     <div class="row form-group">
@@ -21,16 +33,4 @@
     </div>
   </form>
 </div>
-{% endblock content %} {% comment %}
-<form method="POST" class="form-horizontal">
-  {% csrf_token %} {% if error%}
-  <h2>{{error}}</h2>
-  {% else %}
-  <div class="row form-group">
-    <div class="col-12 col-md-9">{{ pqrsdf_form.as_p }}</div>
-  </div>
-  <button type="submit">Guardar</button>
-  <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
-  {% endif %}
-</form>
 {% endcomment %}
