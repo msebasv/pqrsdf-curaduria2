@@ -80,3 +80,18 @@ class PqrsdfState(models.Model):
     class Meta:
         verbose_name = 'PqrsdfState'
         verbose_name_plural = "PqrsdfStates"
+
+
+# PQRSDF
+# RESPONSE
+
+# AGENTE
+
+# LOGS-PQRSDF
+    # ID AGENTE
+    # ID PQRSDF
+    # STATE
+    # CREATED AT
+    # UPDATED AT
+
+# PQRSDF (1 - M) (M - M) AGENTE
