@@ -6,7 +6,7 @@ class PqrsdfForm(forms.ModelForm):
     class Meta:
         model = Pqrsdf
         fields = ['type_pqrsdf', 'type_anonymous', 'name', 'type_identification',
-                  'identification', 'medium_contact', 'number_contact', 'description']
+                  'identification', 'medium_contact', 'email', 'correspondence_address', 'neighborhood', 'municipality', 'country', 'number_contact', 'description']
         labels = {
             'type_pqrsdf': 'Tipo de PQRSDF',
             'type_anonymous': 'Anónimo',
@@ -14,6 +14,11 @@ class PqrsdfForm(forms.ModelForm):
             'type_identification': 'Tipo de identificación',
             'identification': 'Identificación',
             'medium_contact': 'Medio de contacto',
+            'email': 'Correo electrónico',
+            'correspondence_address': 'Dirección de correspondencia',
+            'neighborhood': 'Barrio / Vereda / Corregimiento',
+            'municipality': 'Municipio / Distrito',
+            'country': 'País',
             'number_contact': 'Número de contacto',
             'description': 'Descripción'
         }
@@ -44,6 +49,31 @@ class PqrsdfForm(forms.ModelForm):
                 }
             ),
             'medium_contact': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'email': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'correspondence_address': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'neighborhood': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'municipality': forms.TextInput(
+                attrs={
+                    'class': 'form-control'
+                }
+            ),
+            'country': forms.TextInput(
                 attrs={
                     'class': 'form-control'
                 }

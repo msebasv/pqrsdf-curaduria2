@@ -1,6 +1,6 @@
 from django.urls import path
 from django.contrib.auth.decorators import login_required
-from .views import createPqrsdf, CreatePqrsdf, GetPqrsdfs, updatePqrsdf, UpdatePqrsdf, DeletePqrsdf, deletePqrsdf
+from .views import CreatePqrsdf, GetPqrsdfs, UpdatePqrsdf, DeletePqrsdf
 urlpatterns = [
     path('create_pqrsdf/', login_required(CreatePqrsdf.as_view()),
          name="create_pqrsdf"),

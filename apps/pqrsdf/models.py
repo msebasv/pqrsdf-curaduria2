@@ -26,7 +26,7 @@ class Pqrsdf(models.Model):
     date_pqrsdf = models.DateTimeField(verbose_name="Fecha", auto_now_add=True)
     type_pqrsdf = models.CharField(
         max_length=10, choices=TYPE_PQRSDF, verbose_name="Tipo de PQRSDF")
-    type_anonymous = models.BooleanField()
+    type_anonymous = models.BooleanField(blank=True, null=True)
     name = models.CharField(
         max_length=30, verbose_name="Nombre", blank=True, null=True)
     type_identification = models.CharField(
@@ -35,6 +35,16 @@ class Pqrsdf(models.Model):
         max_length=30, verbose_name="Identificación", blank=True, null=True)
     medium_contact = models.CharField(
         max_length=2, choices=MEDIUM_CONTACT, verbose_name="Medio de contacto", blank=True, null=True)
+    email = models.CharField(
+        max_length=200, verbose_name="Correo electrónico", blank=True, null=True)
+    correspondence_address = models.CharField(
+        max_length=200, verbose_name="Dirección de correspondencia", blank=True, null=True)
+    neighborhood = models.CharField(
+        max_length=200, verbose_name="Barrio / Vereda / Corregimiento", blank=True, null=True)
+    municipality = models.CharField(
+        max_length=200, verbose_name="Municipio / Distrito", blank=True, null=True)
+    country = models.CharField(
+        max_length=200, verbose_name="País", blank=True, null=True)
     number_contact = models.CharField(
         max_length=30, verbose_name="Número de contacto", blank=True, null=True)
     description = models.TextField(verbose_name="Descripción")

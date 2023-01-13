@@ -1,7 +1,4 @@
 from django.shortcuts import render, redirect
-from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Q
-from django.core.paginator import Paginator
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
 from django.urls import reverse_lazy
 from .forms import PqrsdfForm
@@ -21,7 +18,15 @@ class GetPqrsdfs(ListView):
     model = Pqrsdf
     template_name = 'pqrsdf/get_pqrsdfs.html'
     context_object_name = 'pqrsdfs'
-    queryset = Pqrsdf.objects.filter(active=True)
+    paginate_by = 2
+
+    def get_queryset(self):
+        queryset = Pqrsdf.objects.filter(active=True)
+        if self.request.GET.get("search") != None:
+            queryset = self.request.GET.get("search")
+            queryset = Pqrsdf.objects.filter(
+                active=True, type_pqrsdf__icontains=queryset)
+        return queryset
 
 
 class CreatePqrsdf(CreateView):

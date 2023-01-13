@@ -1873,6 +1873,10 @@ header .form-inline .search-form.close {
     font-size: 1.1rem;
 }
 
+.header-card-getpqrsdf {
+    margin: 10px 10px;
+}
+
 .card .user-header .media img {
     border: 5px solid rgba(255, 255, 255, 0.3);
     border-radius: 50%;
@@ -2090,6 +2094,69 @@ header .form-inline .search-form.close {
 
 .timeline .media-body {
     border-bottom: 1px solid #e8e9ef;
+}
+
+.card nav {
+    display: flex;
+    justify-content: center;
+}
+
+.card nav .pagination {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--greyLight-2);
+    color: var(--greyDark);
+}
+
+
+.card nav .pagination .numbers-pagination {
+    display: flex;
+}
+
+.card nav .pagination .pagination-numbers {
+    --size: 32px;
+    --margin: 6px;
+    color: #000000;
+    margin: 0 var(--margin);
+    border-radius: 6px;
+    background: #ffffff;
+    max-width: auto;
+    min-width: var(--size);
+    height: var(--size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0 6px;
+}
+
+.card nav .pagination .current {
+    --size: 32px;
+    --margin: 6px;
+    color: #ffffff;
+    margin: 0 var(--margin);
+    border-radius: 6px;
+    background: #071e41;
+    max-width: auto;
+    min-width: var(--size);
+    height: var(--size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0 6px;
+
+}
+
+.card nav .pagination .previous-page {
+    background-color: #ffffff;
+    color: #071e41;
+}
+
+.card nav .pagination .next-page {
+    background-color: #ffffff;
+    color: #071e41;
 }
 
 /* Weather */
