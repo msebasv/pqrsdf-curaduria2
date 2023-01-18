@@ -18,7 +18,7 @@ class GetPqrsdfs(ListView):
     model = Pqrsdf
     template_name = 'pqrsdf/get_pqrsdfs.html'
     context_object_name = 'pqrsdfs'
-    paginate_by = 2
+    paginate_by = 20
 
     def get_queryset(self):
         queryset = Pqrsdf.objects.filter(active=True)

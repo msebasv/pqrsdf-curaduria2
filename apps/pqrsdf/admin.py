@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pqrsdf, State, PqrsdfState
+from .models import Pqrsdf, PqrsdfState
 # Register your models here.
 
 
@@ -9,5 +9,4 @@ class PqrsdfAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Pqrsdf, PqrsdfAdmin)
-admin.site.register(State)
 admin.site.register(PqrsdfState)

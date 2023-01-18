@@ -762,7 +762,7 @@ aside.left-panel {
     position: fixed;
     left: 0;
     bottom: 0;
-    top: 55px;
+    top: 75px;
     z-index: 999;
 }
 
@@ -776,6 +776,12 @@ aside.left-panel:hover {
 
 .small-device .right-panel {
     margin-left: 83px;
+}
+
+.clearfix::after {
+    display: block;
+    clear: both;
+    content: "";
 }
 
 .navbar {
@@ -831,7 +837,7 @@ aside.left-panel:hover {
 }
 
 .navbar .navbar-nav li {
-    /* width: 100%; */
+    width: 100%;
 }
 
 .navbar .navbar-nav li.active .menu-icon,
@@ -1170,16 +1176,23 @@ aside.left-panel:hover {
 }
 
 .right-panel .page-header {
+    display: flex;
+    align-items: center;
     min-height: 50px;
     margin: 0px;
     padding: 0px 15px;
     background: #ffffff;
     border-bottom: 0px;
+    border-radius: 5px;
 }
 
 .right-panel .page-header h1 {
     font-size: 18px;
     padding: 15px 0;
+}
+
+.right-panel .page-header h3 {
+    text-transform: capitalize;
 }
 
 .right-panel .page-header .breadcrumb {
@@ -1201,8 +1214,8 @@ aside.left-panel:hover {
     -webkit-box-shadow: none;
     box-shadow: none;
     clear: both;
-    padding: 0 30px;
-    height: 55px;
+    padding: 10px 30px;
+    height: 75px;
     position: fixed;
     left: 280px;
     left: 0;
@@ -1461,6 +1474,7 @@ header .form-inline .search-form.close {
 
 .header-menu .text-user-navbar p.user-navbar {
     margin: auto;
+    text-transform: capitalize;
 }
 
 .header-menu .dropdown {
@@ -1667,12 +1681,16 @@ header .form-inline .search-form.close {
 }
 
 .card {
-    margin-bottom: 1.875em;
+    margin: 30px 0px 0px 0px;
     border-radius: 5px;
     padding: 0;
     border: 0px solid transparent;
     -webkit-box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.08);
+}
+
+.card-state {
+    margin: 0px;
 }
 
 .card .box-title {
@@ -2834,7 +2852,7 @@ header .form-inline .search-form.close {
 }
 
 .stat-widget-four .stat-content {
-    margin-left: 40px;
+    /* margin-left: 40px; */
     text-align: center;
 }
 
@@ -3556,6 +3574,23 @@ footer.site-footer .footer-inner a {
     .right-panel .menutoggle {
         width: 20px;
     }
+}
+
+
+.form-group .form-group-input {
+    margin-bottom: 10px;
+}
+
+.form-group-input label {
+    font-weight: 600;
+}
+
+.fa-check {
+    color: #4CBB17;
+}
+
+.fa-times {
+    color: #FF0000;
 }
 
 #cellPaiChart {

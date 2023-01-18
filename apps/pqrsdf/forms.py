@@ -30,7 +30,8 @@ class PqrsdfForm(forms.ModelForm):
             ),
             'type_anonymous': forms.CheckboxInput(
                 attrs={
-                    'class': 'form-check-input'
+                    'id': 'id_anon',
+                    'class': 'form-check-input',
                 }
             ),
             'name': forms.TextInput(

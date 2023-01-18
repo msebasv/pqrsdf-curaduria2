@@ -4,6 +4,12 @@ from django.db import models
 
 
 class Pqrsdf(models.Model):
+    STATE = (
+        ("Radicacion", "Radicación"),
+        ("Elaboracion", "Elaboración"),
+        ("Revision", "Revisión"),
+        ("Finalizado", "Finalizado"),
+    )
     TYPE_PQRSDF = (
         ("Peticion", "Petición"),
         ("Queja", "Queja/Reclamo"),
@@ -24,6 +30,8 @@ class Pqrsdf(models.Model):
     )
     active = models.BooleanField(verbose_name="Activo", default=True)
     date_pqrsdf = models.DateTimeField(verbose_name="Fecha", auto_now_add=True)
+    state = models.CharField(verbose_name="Estado",
+                             max_length=100, choices=STATE, default='Radicacion')
     type_pqrsdf = models.CharField(
         max_length=10, choices=TYPE_PQRSDF, verbose_name="Tipo de PQRSDF")
     type_anonymous = models.BooleanField(blank=True, null=True)
@@ -57,25 +65,7 @@ class Pqrsdf(models.Model):
         return self.type_pqrsdf
 
 
-class State(models.Model):
-    state = models.CharField(
-        max_length=30, verbose_name="Estado")
-    # filing
-    # elaboration
-    # revision
-    # finalized
-
-    class Meta:
-        verbose_name = 'State'
-        verbose_name_plural = "States"
-
-    def __str__(self):
-        return self.state
-
-
 class PqrsdfState(models.Model):
-    id_state = models.ForeignKey(
-        State, null=True, blank=True, on_delete=models.CASCADE)
     id_pqrsdf = models.ForeignKey(
         Pqrsdf, null=True, blank=True, on_delete=models.CASCADE)
     date_input = models.DateField(

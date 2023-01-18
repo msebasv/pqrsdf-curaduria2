@@ -23,9 +23,10 @@
   <header id="header" class="header">
     <div class="top-left">
       <div class="navbar-header">
-        <a class="navbar-brand" href="./"
+        <a class="navbar-brand" href="/"
           ><img src={% static 'img/logoCuraduria.png' %} alt="Logo"></a
         >
+        <a id="menuToggle" class="menutoggle"><i class="fa fa-bars"></i></a>
       </div>
     </div>
     <div class="top-right">
@@ -58,9 +59,211 @@
   {% endblock dashboard %}
   <div class="content">
     {% block content %}
-    <h2>Bienvenido {{ user.username }}</h2>
-    {% endblock content %}
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="page-header float-left">
+          <div class="page-title">
+            <h3>Bienvenido {{ user.username }}</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-12 col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <strong class="card-title">Estado</strong>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-sm-6 col-lg-2">
+                <div class="card card-state text-white bg-flat-color-1">
+                  <div class="card-body">
+                    <div class="card-left pt-1 float-left">
+                      <h3 class="mb-0 fw-r">
+                        <span class="count">23569</span>
+                      </h3>
+                      <p class="text-light mt-1 m-0">Radicación</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-2">
+                <div class="card card-state text-white bg-flat-color-6">
+                  <div class="card-body">
+                    <div class="card-left pt-1 float-left">
+                      <h3 class="mb-0 fw-r">
+                        <span class="count float-left">85</span>
+                      </h3>
+                      <p class="text-light mt-1 m-0">Elaboración</p>
+                    </div>
+                    <!-- /.card-left -->
+                    <!-- /.card-right -->
+                  </div>
+                </div>
+              </div>
+              <!--/.col-->
+
+              <div class="col-sm-6 col-lg-2">
+                <div class="card card-state text-white bg-flat-color-3">
+                  <div class="card-body">
+                    <div class="card-left pt-1 float-left">
+                      <h3 class="mb-0 fw-r">
+                        <span class="count">6569</span>
+                      </h3>
+                      <p class="text-light mt-1 m-0">Revisión</p>
+                    </div>
+                    <!-- /.card-left -->
+                    <!-- /.card-right -->
+                  </div>
+                </div>
+              </div>
+              <!--/.col-->
+              <div class="col-sm-6 col-lg-2">
+                <div class="card card-state text-white bg-flat-color-2">
+                  <div class="card-body">
+                    <div class="card-left pt-1 float-left">
+                      <h3 class="mb-0 fw-r">
+                        <span class="count">1490</span>
+                      </h3>
+                      <p class="text-light mt-1 m-0">Finalizado</p>
+                    </div>
+                    <!-- /.card-left -->
+                    <!-- /.card-right -->
+                  </div>
+                </div>
+              </div>
+              <div class="col-sm-6 col-lg-4">
+                <div class="card card-state text-white bg-flat-color-4">
+                  <div class="card-body">
+                    <div class="card-left pt-1 float-left">
+                      <h3 class="mb-0 fw-r">
+                        <span class="count">23569</span>
+                      </h3>
+                      <p class="text-light mt-1 m-0">TOTAL</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--/.col-->
+        {% comment %}
+        <div class="col-sm-12 col-lg-12">
+          {% endcomment %}
+          <div class="card">
+            <div class="card-header">
+              <strong class="card-title">PQRSDF</strong>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-sm-6 col-lg-2">
+                  <div class="card card-state">
+                    <div class="card-body">
+                      <div class="stat-widget-four">
+                        <div class="stat-icon dib">
+                          <i class="ti-write text-muted"></i>
+                        </div>
+                        <div class="stat-content">
+                          <div class="text-left dib">
+                            <div class="stat-heading">Petición</div>
+                            <div class="stat-text">Total: 765</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                  <div class="card card-state">
+                    <div class="card-body">
+                      <div class="stat-widget-four">
+                        <div class="stat-icon dib">
+                          <i class="ti-close text-muted"></i>
+                        </div>
+                        <div class="stat-content">
+                          <div class="text-left dib">
+                            <div class="stat-heading">Queja</div>
+                            <div class="stat-text">Total: 765</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                  <div class="card card-state">
+                    <div class="card-body">
+                      <div class="stat-widget-four">
+                        <div class="stat-icon dib">
+                          <i class="ti-announcement text-muted"></i>
+                        </div>
+                        <div class="stat-content">
+                          <div class="text-left dib">
+                            <div class="stat-heading">Reclamo</div>
+                            <div class="stat-text">Total: 765</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-2">
+                  <div class="card card-state">
+                    <div class="card-body">
+                      <div class="stat-widget-four">
+                        <div class="stat-icon dib">
+                          <i class="ti-alert text-muted"></i>
+                        </div>
+                        <div class="stat-content">
+                          <div class="text-left dib">
+                            <div class="stat-heading">Denuncia</div>
+                            <div class="stat-text">Total: 765</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-sm-6 col-lg-4">
+                  <div class="card card-state">
+                    <div class="card-body">
+                      <div class="stat-widget-four">
+                        <div class="stat-icon dib">
+                          <i class="ti-check text-muted"></i>
+                        </div>
+                        <div class="stat-content">
+                          <div class="text-left dib">
+                            <div class="stat-heading">TOTAL</div>
+                            <div class="stat-text">Total: 765</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% comment %}
+        </div>
+        {% endcomment %}
+      </div>
+    </div>
   </div>
+  {% endblock content %}
+  <div class="clearfix"></div>
+  <footer class="site-footer">
+    <div class="footer-inner bg-white">
+      <div class="row">
+        <div class="col-sm-6">Copyright &copy; 2023 Curaduria 2</div>
+        <div class="col-sm-6 text-right">Designed by Sebastián Martínez</div>
+      </div>
+    </div>
+  </footer>
   <!-- Esto es un comentario -->
-  {% endblock body %}
 </div>
+{% endblock body %} {% block extraJs %}
+<script src="{% static 'js/main.js' %}"></script>
+{% endblock extraJs %}
