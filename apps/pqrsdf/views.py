@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView
+from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from .forms import PqrsdfForm
 from .models import Pqrsdf
@@ -27,6 +27,12 @@ class GetPqrsdfs(ListView):
             queryset = Pqrsdf.objects.filter(
                 active=True, type_pqrsdf__icontains=queryset)
         return queryset
+
+
+class DetailPqrsdf(DetailView):
+    model = Pqrsdf
+    template_name = 'pqrsdf/detail_pqrsdf.html'
+    context_object_name = 'pqrsdfs'
 
 
 class CreatePqrsdf(CreateView):

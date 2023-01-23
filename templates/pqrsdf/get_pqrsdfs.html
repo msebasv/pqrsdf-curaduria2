@@ -77,12 +77,39 @@
                   {% endif %}
                 </td>
                 <td>
-                  <a href="{% url 'pqrsdf:update_pqrsdf' pqrsdf.id %}"
-                    >Editar</a
-                  >
-                  <a href="{% url 'pqrsdf:delete_pqrsdf' pqrsdf.id %}"
-                    >Eliminar</a
-                  >
+                  <div class="dropdown">
+                    <button
+                      class="btn btn-danger dropdown-toggle button-menu-settings"
+                      type="button"
+                      data-bs-toggle="dropdown"
+                      aria-expanded="false"
+                    >
+                      <i class="fa fa-cog" disabled></i>
+                    </button>
+                    <ul class="dropdown-menu">
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'pqrsdf:detail_pqrsdf' pqrsdf.id %}"
+                          >Ver</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'pqrsdf:update_pqrsdf' pqrsdf.id %}"
+                          >Editar</a
+                        >
+                      </li>
+                      <li>
+                        <a
+                          class="dropdown-item"
+                          href="{% url 'pqrsdf:delete_pqrsdf' pqrsdf.id %}"
+                          >Eliminar</a
+                        >
+                      </li>
+                    </ul>
+                  </div>
                 </td>
               </tr>
               {% endfor %}
