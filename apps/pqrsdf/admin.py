@@ -4,8 +4,9 @@ from .models import Pqrsdf, PqrsdfState
 
 
 class PqrsdfAdmin(admin.ModelAdmin):
-    search_fields = ['type_pqrsdf']
-    list_display = ('type_pqrsdf', 'date_pqrsdf', 'type_anonymous')
+    search_fields = ['type_pqrsdf', 'radicated']
+    list_display = ('radicated', 'type_pqrsdf',
+                    'date_pqrsdf', 'type_anonymous', 'state')
 
 
 admin.site.register(Pqrsdf, PqrsdfAdmin)

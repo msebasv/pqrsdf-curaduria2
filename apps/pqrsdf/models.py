@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -29,6 +30,8 @@ class Pqrsdf(models.Model):
         ("DC", "Dirección de correspondencia"),
     )
     active = models.BooleanField(verbose_name="Activo", default=True)
+    radicated = models.CharField(
+        verbose_name="Radicado", max_length=50, blank=True, null=True)
     date_pqrsdf = models.DateTimeField(verbose_name="Fecha", auto_now_add=True)
     state = models.CharField(verbose_name="Estado",
                              max_length=100, choices=STATE, default='Radicacion')
@@ -64,10 +67,27 @@ class Pqrsdf(models.Model):
     def __str__(self):
         return self.type_pqrsdf
 
+    def save(self, *args, **kwargs):
+        print(self.radicated)
+        if self.radicated == None:
+            lastRadicate = Pqrsdf.objects.last()
+            string = str(lastRadicate.radicated)
+            separate = list(string.split("CU"))
+            number = separate[-1]
+            newNumber = int(number) + 1
+            rad = str(newNumber)
+            radNew = 'CU' + rad.zfill(3)
+            self.radicated = radNew
+        else:
+            self.radicated = self.radicated
+        super(Pqrsdf, self).save(*args, **kwargs)
+
 
 class PqrsdfState(models.Model):
     id_pqrsdf = models.ForeignKey(
         Pqrsdf, null=True, blank=True, on_delete=models.CASCADE)
+    id_user = models.ForeignKey(
+        User, on_delete=models.CASCADE, null=True, blank=True)
     date_input = models.DateField(
         verbose_name="Fecha Entrada", null=True, blank=True)
     date_output = models.DateField(

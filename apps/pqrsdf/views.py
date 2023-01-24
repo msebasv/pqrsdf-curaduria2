@@ -21,11 +21,11 @@ class GetPqrsdfs(ListView):
     paginate_by = 20
 
     def get_queryset(self):
-        queryset = Pqrsdf.objects.filter(active=True)
+        queryset = Pqrsdf.objects.filter(active=True).order_by('-date_pqrsdf')
         if self.request.GET.get("search") != None:
             queryset = self.request.GET.get("search")
             queryset = Pqrsdf.objects.filter(
-                active=True, type_pqrsdf__icontains=queryset)
+                active=True, radicated__icontains=queryset) | Pqrsdf.objects.filter(active=True, type_pqrsdf__icontains=queryset)
         return queryset
 
 

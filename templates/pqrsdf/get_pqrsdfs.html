@@ -45,6 +45,7 @@
             <thead>
               <tr>
                 <th class="serial">#</th>
+                <th>Radicado</th>
                 <th>Tipo</th>
                 <th>Fecha de Creación</th>
                 <th>Anónimo</th>
@@ -56,6 +57,7 @@
               {% for pqrsdf in pqrsdfs %}
               <tr>
                 <td class="serial">{{pqrsdf.id}}</td>
+                <td class="serial">{{pqrsdf.radicated}}</td>
                 <td>{{pqrsdf.type_pqrsdf}}</td>
                 <td>{{pqrsdf.date_pqrsdf}}</td>
                 <td>

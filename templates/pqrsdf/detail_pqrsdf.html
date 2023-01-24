@@ -1,6 +1,7 @@
 {% extends 'dashboard.html' %}{% load static %}<!-- Esto es un comentario -->
 {% block content %}
 
+<h1>Radicado #{{ object.radicated}}</h1>
 <h1>Tipo: {{ object.type_pqrsdf}}</h1>
 <h3>Estado: {{ object.state }}</h3>
 <h6>Nombre: {{ object.name}}</h6>
@@ -58,5 +59,6 @@
       </tr>
     </tbody>
   </table>
+  <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
 </div>
 {% endblock content %}
