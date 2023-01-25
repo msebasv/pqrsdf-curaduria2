@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, DetailView
 from django.urls import reverse_lazy
+from .models import Pqrsdf, PqrsdfState
 from .forms import PqrsdfForm
-from .models import Pqrsdf
 # Create your views here.
 
 
@@ -15,6 +15,12 @@ class Dashboard(TemplateView):
 
 
 class GetPqrsdfs(ListView):
+    """Gets the list of pqrsdf
+        Method: get_queryset
+        Function: 
+        * Obtain all pqrsdf if "Active" is true and order by date_pqrsdf
+        * In the second filter, in the conditional, it obtains the pqrsdfs that are placed in the search field and searches it by root or by type.
+    """
     model = Pqrsdf
     template_name = 'pqrsdf/get_pqrsdfs.html'
     context_object_name = 'pqrsdfs'
@@ -35,6 +41,13 @@ class DetailPqrsdf(DetailView):
     context_object_name = 'pqrsdfs'
 
 
+class ListStatePqrsdf(ListView):
+    model = PqrsdfState
+    template_name = 'pqrsdf/detail_pqrsdf.html'
+    context_object_name = 'pqrsdfState'
+    paginate_by = 20
+
+
 class CreatePqrsdf(CreateView):
     model = Pqrsdf
     template_name = 'pqrsdf/create_pqrsdf.html'
@@ -50,6 +63,11 @@ class UpdatePqrsdf(UpdateView):
 
 
 class DeletePqrsdf(DeleteView):
+    """Desactivate option active
+        Method: post
+        Function: 
+        * Obtain de pqrsdf by id or primary key and change de field from true to false, save de change and redirect to the list of pqrsdf 
+    """
     model = Pqrsdf
 
     def post(self, request, pk, *args, **kwargs):
@@ -57,7 +75,6 @@ class DeletePqrsdf(DeleteView):
         object.active = False
         object.save()
         return redirect('pqrsdf:get_pqrsdfs')
-
 # def Home(request):
 #     return render(request, 'index.html')
 

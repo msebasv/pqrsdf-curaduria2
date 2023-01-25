@@ -1,6 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import User
-
+from apps.user.models import User
 # Create your models here.
 
 
@@ -86,12 +85,10 @@ class Pqrsdf(models.Model):
 class PqrsdfState(models.Model):
     id_pqrsdf = models.ForeignKey(
         Pqrsdf, null=True, blank=True, on_delete=models.CASCADE)
-    id_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, null=True, blank=True)
     date_input = models.DateField(
-        verbose_name="Fecha Entrada", null=True, blank=True)
+        verbose_name="Fecha Entrada", null=True, blank=True, auto_now=True)
     date_output = models.DateField(
-        verbose_name="Fecha Salida", null=True, blank=True)
+        verbose_name="Fecha Salida", null=True, blank=True, auto_now=True)
     user_change_input = models.CharField(
         max_length=191, verbose_name="Usuario entrada", null=True,  blank=True)
     user_change_output = models.CharField(

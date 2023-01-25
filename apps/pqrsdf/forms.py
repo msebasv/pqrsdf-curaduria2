@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pqrsdf
+from .models import Pqrsdf, PqrsdfState
 
 
 class PqrsdfForm(forms.ModelForm):
@@ -90,8 +90,3 @@ class PqrsdfForm(forms.ModelForm):
                 }
             ),
         }
-        # widgets = {
-        #     'type_pqrsdf': forms.CharField(
-        #         widget=forms.Select(choices=CHOICES)
-        #     ),
-        # }

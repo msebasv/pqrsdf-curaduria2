@@ -1,17 +1,58 @@
 {% extends 'dashboard.html' %}{% load static %}<!-- Esto es un comentario -->
 {% block content %}
-
-<h1>Radicado #{{ object.radicated}}</h1>
-<h1>Tipo: {{ object.type_pqrsdf}}</h1>
-<h3>Estado: {{ object.state }}</h3>
-<h6>Nombre: {{ object.name}}</h6>
-<p>
-  Identificación: {{ object.type_identification }} {{ object.identification}}
-</p>
-<p>Comunicación: {{ object.email }}</p>
-<p>Teléfono: {{ object.number_contact }}</p>
-<p>Descripción</p>
-<p>{{ object.description }}</p>
+<div class="row">
+  <div class="col-sm-12 col-lg-12">
+    <div class="card">
+      <div class="card-header">
+        <strong class="card-title">
+          <h1>Radicado #{{ object.radicated}}</h1>
+        </strong>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-sm-6 col-lg-12">
+            <div class="mx-auto d-block">
+              <h5>Tipo: {{ object.type_pqrsdf}}</h5>
+              <h5>Estado: {{ object.state }}</h5>
+              <h5>Tipo de identificación: {{ object.type_identification }}</h5>
+              <h5>Identificación: {{ object.identification}}</h5>
+              <h5>Contacto: {{ object.email }}</h5>
+              <h5>Descripción</h5>
+              <p>{{ object.description }}</p>
+            </div>
+            <hr />
+            <div class="card-text">
+              <div class="row">
+                <div class="col-lg-2">
+                  <h5>Cambiar Estado:</h5>
+                </div>
+                <div class="col-lg-2">
+                  {% for field in form %} {{ field.errors }}
+                  <div id="{{field.id_for_label}}" class="form-group-input">
+                    {{ field.label_tag }} {{field}}
+                  </div>
+                  {% endfor %}
+                </div>
+                <div class="col-lg-8">
+                  <button type="submit" class="btn btn-success">Guardar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <form method="POST" class="form-horizontal">
+    {% for field in form %} {{ field.errors }}
+    <div id="{{field.id_for_label}}" class="form-group-input">
+      {{ field.label_tag }} {{field}}
+    </div>
+    {% endfor %}
+  </form>
+</div>
 <div class="table-stats order-table ov-h card-body">
   <table id="bootstrap-data-table" class="table table-striped table-bordered">
     <thead>
@@ -25,38 +66,16 @@
       </tr>
     </thead>
     <tbody>
+      {% for pqrsdfState in pqrsdfStates %}
       <tr>
-        <td>1</td>
-        <td>Radicación</td>
-        <td>20/01/23</td>
-        <td>21/01/23</td>
-        <td>Laura</td>
-        <td>Sebastián</td>
+        <td>{{pqrsdfState.id}}</td>
+        <td>{{pqrsdfState.id_pqrsdf}}</td>
+        <td>{{pqrsdfState.date_input}}</td>
+        <td>{{pqrsdfState.date_output}}</td>
+        <td>{{pqrsdfState.user_change_input}}</td>
+        <td>{{pqrsdfState.user_change_output}}</td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td>Elaboración</td>
-        <td>21/01/23</td>
-        <td>22/01/23</td>
-        <td>Sebastián</td>
-        <td>Juandiego</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>Revisión</td>
-        <td>22/01/23</td>
-        <td>23/01/23</td>
-        <td>Juandiego</td>
-        <td>Andrea</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>Finalizado</td>
-        <td>23/01/23</td>
-        <td>24/01/23</td>
-        <td>Andrea</td>
-        <td>Pedro</td>
-      </tr>
+      {% endfor %}
     </tbody>
   </table>
   <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>

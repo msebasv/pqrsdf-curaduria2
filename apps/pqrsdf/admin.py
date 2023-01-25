@@ -9,5 +9,10 @@ class PqrsdfAdmin(admin.ModelAdmin):
                     'date_pqrsdf', 'type_anonymous', 'state')
 
 
+class PqrsdfStateAdmin(admin.ModelAdmin):
+    list_display = ('id_pqrsdf', 'date_input',
+                    'date_output', 'user_change_input', 'user_change_output')
+
+
 admin.site.register(Pqrsdf, PqrsdfAdmin)
-admin.site.register(PqrsdfState)
+admin.site.register(PqrsdfState, PqrsdfStateAdmin)
