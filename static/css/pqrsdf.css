@@ -16,9 +16,15 @@
 Googel Fonts  */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
 /* Googel Fonts End  
-
 */
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,700");
+
+@font-face {
+    font-family: 'Barlow';
+    src: url('../fonts/Barlow-Regular.ttf');
+    font-style: normal;
+    font-weight: normal;
+}
 
 .bg-flat-color-1 {
     background: #00c292;
@@ -751,6 +757,22 @@ canvas {
 
 /* Global Styles */
 /* Main Styles */
+.container-banner-gov {
+    display: flex;
+    justify-content: center;
+    background-color: #00afef !important
+}
+
+.container-banner-gov:hover {
+    background-color: #000000 !important;
+    cursor: pointer;
+}
+
+.img-gov-logo {
+    padding: 10px 0px;
+    width: 200px;
+}
+
 aside.left-panel {
     background: #fff;
     height: 100vh;
@@ -825,19 +847,27 @@ aside.left-panel:hover {
     float: none;
     position: relative;
     margin: 0 !important;
+    align-items: center;
 }
 
-.navbar .navbar-nav>li {
+.navbar-dashboard .navbar-nav>li {
     padding-left: 30px;
     padding-right: 30px;
 }
+
+.navbar-dashboard .navbar-nav li {
+    text-align: start !important;
+    width: 100%;
+}
+
 
 .navbar .navbar-nav>li.active {
     background: #fafafa;
 }
 
 .navbar .navbar-nav li {
-    width: 100%;
+    text-align: center;
+    /* width: 100%; */
 }
 
 .navbar .navbar-nav li.active .menu-icon,
@@ -855,7 +885,7 @@ aside.left-panel:hover {
     color: #607d8b;
     display: inline-block;
     font-size: 14px;
-    line-height: 26px;
+    line-height: 20px;
     padding: 10px 0;
     position: relative;
     width: 100%;
@@ -869,7 +899,7 @@ aside.left-panel:hover {
 .navbar .navbar-nav li>a .menu-icon {
     color: #607d8b;
     float: left;
-    margin-top: 8px;
+    margin-top: 5px;
     width: 55px;
     text-align: left;
     z-index: 9;
@@ -1143,6 +1173,189 @@ aside.left-panel:hover {
     right: -20px;
     text-align: center;
 }
+
+.dropdown-menu li {
+    padding: 0px 10px;
+}
+
+.dropdown-menu li a {
+    text-align: start;
+}
+
+.container-banner {
+    background-image: url('../img/consultasBanner.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover
+}
+
+.container-banner .color-banner {
+    background: rgba(7, 8, 57, 0.75);
+    padding: 50px;
+}
+
+
+
+.container-banner .color-banner .title-pqrsdf {
+    color: #ffffff;
+    font-size: 4rem;
+    position: relative;
+    opacity: 1;
+    font-family: Barlow;
+    font-weight: bolder;
+}
+
+.container-home {
+    width: 100%;
+    height: 100%;
+    min-height: calc(100vh - 754.39px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 12px 30px 12px;
+
+}
+
+.col2 {
+    display: flex;
+    align-items: center;
+}
+
+.title-pqrsdf {
+    text-align: start;
+    color: gray;
+}
+
+.col1 {
+    display: flex;
+    justify-content: center;
+}
+
+.form-container {
+    text-align: justify;
+    padding: 20px 0px 20px 0px;
+}
+
+.form-container .label-title {
+    font-size: 1.25rem;
+    font-weight: 400;
+    margin-bottom: 30px
+}
+
+.input-pqrsdf {
+    font-size: 1.25rem
+}
+
+.button-send-pqrsdf {
+    background-color: #172342;
+    border-color: #172342;
+    font-size: 14px;
+    color: #ffffff;
+
+}
+
+.button-send-pqrsdf:active {
+    background-color: blue;
+}
+
+.container-infopqrsdf {
+    text-align: justify;
+    padding: 30px 15px;
+}
+
+.new-pqrsdf {
+    font-size: 12px;
+    padding-bottom: 40px;
+
+}
+
+.new-pqrsdf a {
+    text-decoration: underline;
+    color: blue;
+}
+
+.attention-channel {
+    font-size: 14px;
+}
+
+/* Footer */
+
+.footer-layout {
+    background-color: #181f2a;
+}
+
+.container-footer {
+    color: #FFFFFF;
+}
+
+.container-footer .gov-logo {
+    width: 300px;
+    height: 100px;
+}
+
+.container-footer .co-colombia-logo {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 30px;
+}
+
+.container-footer .brand-footer {
+    width: 300;
+    height: 116px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.container-footer .col1-footer,
+.col2-footer {
+    margin-top: 10px;
+}
+
+.container-footer .col2-footer,
+.col3-footer,
+.col4-footer {
+    margin: auto
+}
+
+.container-footer .map-site {
+    text-align: start;
+    font-size: 10px;
+    padding-left: 30px;
+}
+
+.container-footer .map-site a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+
+.container-footer .map-site a:hover {
+    text-decoration: underline;
+}
+
+.container-footer .contact-data {
+    margin-bottom: 30px;
+    padding-left: 30px;
+}
+
+.container-footer .contact-data h2 {
+    text-align: start;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+.container-footer .contact-data p {
+    margin-bottom: 5px;
+    font-size: 12px;
+    text-align: start;
+    color: #FFFFFF;
+}
+
+.container-footer .col {
+    /* margin-bottom: 10px; */
+    text-align: center;
+    padding: 0;
+}
+
 
 /* Right panel */
 .right-panel {
@@ -3057,7 +3270,7 @@ footer.site-footer .footer-inner a {
     }
 }
 
-@media (max-width: 1368px) {
+@media (max-width: 1400px) {
     .twt-category {
         margin-bottom: 0;
     }
@@ -3073,6 +3286,14 @@ footer.site-footer .footer-inner a {
 
     .stat-widget-one .stat-content {
         margin-left: 15px;
+    }
+
+    .col-sm-6,
+    .col-md-4,
+    .col-lg-6,
+    .col-xl-6,
+    .col-xxl-4 {
+        padding-bottom: 10px;
     }
 
     .card-body {
@@ -3618,4 +3839,5 @@ footer.site-footer .footer-inner a {
 
 .navbar-brand img {
     width: 250px;
+    height: 50px;
 }

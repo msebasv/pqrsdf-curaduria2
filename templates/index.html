@@ -52,35 +52,344 @@
   </head>
   <body>
     {% block body %}
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
-      <div class="container-fluid">
-        <button
-          class="navbar-toggler"
-          type="button"
-          data-bs-toggle="collapse"
-          data-bs-target="#navbarTogglerDemo01"
-          aria-controls="navbarTogglerDemo01"
-          aria-expanded="false"
-          aria-label="Toggle navigation"
-        >
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
-          <a class="navbar-brand" href="./"
-            ><img src={% static 'img/logoCuraduria.png' %} alt="Logo"></a
+    <header>
+      <a href="https://www.gov.co/">
+        <div class="container-banner-gov">
+          <img src={% static 'img/govLogo.svg' %} alt="" class="img-gov-logo" />
+        </div>
+      </a>
+      <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container">
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarTogglerDemo01"
+            aria-controls="navbarTogglerDemo01"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
           >
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active" aria-current="page" href="">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
-            </li>
-          </ul>
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarTogglerDemo01">
+            <a class="navbar-brand" href="./"
+              ><img src={% static 'img/brandCuraduria.png' %} alt="Logo"></a
+            >
+            <ul class="navbar-nav">
+              <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href=""
+                  >Inicio</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://curaduria2bogota.com/nosotros/"
+                  >Nosotros</a
+                >
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-expanded="false"
+                  >Servicios</a
+                >
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/formularios/"
+                      >Formularios</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://estadoexp.curaduria2bogota.com/listar.php"
+                      >Estado del trámite</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/requisitos/"
+                      >Requisitos</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/"
+                      >Tabla de expensas</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/normatividad/"
+                      >Normatividad</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-expanded="false"
+                  >Publicaciones</a
+                >
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/publicaciones/"
+                      >Resoluciones</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://actadm.curaduria2bogota.com/listar.php"
+                      >Actos administrativos</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/correspondencia/"
+                      >Correspondencia</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/vecinos/"
+                      >Vecinos</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/otros/"
+                      >Otros</a
+                    >
+                  </li>
+                </ul>
+              </li>
+              <li class="nav-item dropdown">
+                <a
+                  class="nav-link dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  href="#"
+                  role="button"
+                  aria-expanded="false"
+                  >Curaduría Virtual</a
+                >
+                <ul class="dropdown-menu">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/conceptos-de-norma/"
+                      >Conceptos de Norma</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/conceptos-de-uso/"
+                      >Conceptos de uso</a
+                    >
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="https://curaduria2bogota.com/conceptos-de-reparaciones-locativas/"
+                      >Conceptos de reparaciones locativas</a
+                    >
+                  </li>
+                </ul>
+              </li>
+
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://curaduria2bogota.com/transparencia/"
+                  >Transparencia y acceso a la información pública</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://curaduria2bogota.com/noticias/"
+                  >Noticias</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://curaduria2bogota.com/contacto/"
+                  >Atención y servicios a la ciudadanía</a
+                >
+              </li>
+              <li class="nav-item">
+                <a
+                  class="nav-link"
+                  href="https://curaduria2bogota.com/participa/"
+                  >Participa</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Iniciar sesión</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div class="container-banner">
+        <div class="color-banner">
+          <div class="container">
+            <h1 class="title-pqrsdf">Consulta PQRSDF</h1>
+          </div>
         </div>
       </div>
-    </nav>
-    <h1>BIENVENIDO</h1>
+      <div class="container container-home">
+        <div class="row">
+          <div class="col col1 col-lg-12">
+            <form class="form-container">
+              <label class="label-title"
+                >Consultar PQRSDF utilizando número de radicado:</label
+              >
+              <div class="input-group mb-3">
+                <input
+                  type="text"
+                  placeholder="Número de radicado - PQRSDF"
+                  class="input-pqrsdf form-control"
+                />
+                <button
+                  class="btn btn-outline-secondary button-send-pqrsdf"
+                  type="button"
+                  id="button-addon2"
+                >
+                  Buscar
+                </button>
+              </div>
+              <div class="new-pqrsdf">
+                <label> Para crear una nueva PQRSDF</label>
+                <a href="https://curaduria2bogota.com/contacto/"
+                  >haz click aquí</a
+                >
+              </div>
+              <div class="attention-channel">
+                <p>Canal de atención: info@curaduria2bogota.com</p>
+              </div>
+            </form>
+          </div>
+          <hr />
+          <div class="col col2 col-lg-12">
+            <div class="container-infopqrsdf">
+              <h6>¿QUE ES UNA PQRSDF?</h6>
+              <li>
+                Petición: Es el derecho fundamental que tiene toda persona a
+                presentar solicitudes respetuosas a las autoridades por motivos
+                de interés general o particular y a obtener su pronta
+                resolución.
+              </li>
+              <li>
+                Queja: Es la manifestación de protesta, censura, descontento o
+                inconformidad que formula una persona en relación con una
+                conducta que considera irregular de uno o varios servidores
+                públicos en desarrollo de sus funciones.
+              </li>
+              <li>
+                Reclamo: Es el derecho que tiene toda persona de exigir,
+                reivindicar o demandar una solución, ya sea por motivo general o
+                particular, referente a la prestación indebida de un servicio o
+                a la falta de atención de una solicitud.
+              </li>
+              <li>
+                Sugerencia: Es la manifestación de una idea o propuesta para
+                mejorar el servicio o la gestión de la entidad.
+              </li>
+              <li>
+                Denuncia: Es la puesta en conocimiento ante una autoridad
+                competente de una conducta posiblemente irregular, para que se
+                adelante la correspondiente investigación penal, disciplinaria,
+                fiscal, administrativa - sancionatoria o ético-profesional. Es
+                necesario que se indiquen las circunstancias de tiempo, modo y
+                lugar, con el objeto de que se establezcan responsabilidades.
+              </li>
+              <li>
+                Solicitud de acceso a la información pública: Según el artículo
+                25 de la Ley 1712 de 2014 “es aquella que, de forma oral o
+                escrita, incluida la vía electrónica, puede hacer cualquier
+                persona para acceder a la información pública. Parágrafo En
+                ningún caso podrá ser rechazada la petición por motivos de
+                fundamentación inadecuada o incompleta.
+              </li>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer class="footer-layout">
+      <div class="container container-footer">
+        <div class="row">
+          <div class="col col1-footer col-md-6 col-12">
+            <a href="https://www.gov.co/">
+              <img src={% static 'img/govLogo.svg' %} alt="" class="gov-logo" />
+            </a>
+          </div>
+          <div class="col col2-footer col-md-6 col-12">
+            <a href="https://www.gov.co/">
+              <img
+                src="{% static 'img/COColombialogo.svg' %}"
+                alt=""
+                class="co-colombia-logo"
+              />
+            </a>
+          </div>
+          <div class="col col3-footer col-md-6 col-12">
+            <a href="https://www.gov.co/">
+              <img
+                src="{% static 'img/brandCuraduriaBlanco.png' %}"
+                alt=""
+                class="brand-footer"
+              />
+            </a>
+          </div>
+          <div class="col col4-footer col-md-6 col-12">
+            <div class="contact-data">
+              <h2>Contacto</h2>
+              <p>Dirección: Carrera 13A No. 96-24</p>
+              <p>Celular: (+57) 311 485 7338</p>
+              <p>PBX: (+57) (601) 441 4573</p>
+              <p>Correo: info@curaduria2bogota.com</p>
+              <p>
+                Notificaciones Judiciales:
+                notificacionesjudiciales@curaduria2bogota.com
+              </p>
+              <p>Términos y Condiciones</p>
+            </div>
+          </div>
+          <div class="col col5-footer col-md-6 col-12"></div>
+          <div class="col col6-footer col-md-6 col-12">
+            <p class="map-site">
+              <a href="https://curaduria2bogota.com/mapa-del-sitio/">
+                Mapa del sitio
+              </a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </footer>
     {% endblock body %} {% block extraJs %}{% endblock extraJs %}
   </body>
 </html>
