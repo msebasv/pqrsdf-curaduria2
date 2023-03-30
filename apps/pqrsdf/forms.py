@@ -90,3 +90,17 @@ class PqrsdfForm(forms.ModelForm):
                 }
             ),
         }
+
+class StateForm(forms.ModelForm):
+    class Meta:
+        model = Pqrsdf
+        fields = ['state_actual']
+        labels = {
+            'state_actual' : ' Cambiar estado'
+        }
+        widgets = {
+            'state_actual': forms.Select(
+                attrs={
+                    'class': 'form-control'
+                }
+        )}

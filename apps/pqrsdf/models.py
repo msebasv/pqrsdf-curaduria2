@@ -4,47 +4,47 @@ from apps.user.models import User
 
 
 class Pqrsdf(models.Model):
-    STATE = (
-        ("Radicacion", "Radicación"),
-        ("Elaboracion", "Elaboración"),
-        ("Revision", "Revisión"),
-        ("Finalizado", "Finalizado"),
+    STATE_OPTIONS = (
+        (1, "Radicación"),
+        (2, "Elaboración"),
+        (3, "Revisión"),
+        (4, "Finalizado"),
     )
     TYPE_PQRSDF = (
-        ("Peticion", "Petición"),
-        ("Queja", "Queja/Reclamo"),
-        ("Solicitud", "Solicitud de información"),
-        ("Denuncia", "Denuncia"),
-        ("Sugerencia", "Sugerencia/Propuesta")
+        (1, "Petición"),
+        (2, "Queja/Reclamo"),
+        (3, "Solicitud de información"),
+        (4, "Denuncia"),
+        (5, "Sugerencia/Propuesta")
     )
     TYPE_IDENTIFICATION = (
-        ("CC", "Cédula de ciudadanía"),
-        ("NU", "NUIP"),
-        ("CE", "Cédula de extranjería"),
-        ("NIT", "NIT"),
-        ("PS", "Pasaporte")
+        (1, "Cédula de ciudadanía"),
+        (2, "NUIP"),
+        (3, "Cédula de extranjería"),
+        (4, "NIT"),
+        (5, "Pasaporte")
     )
     MEDIUM_CONTACT = (
-        ("CE", "Correo electrónico"),
-        ("DC", "Dirección de correspondencia"),
+        (1, "Correo electrónico"),
+        (2, "Dirección de correspondencia"),
     )
     active = models.BooleanField(verbose_name="Activo", default=True)
     radicated = models.CharField(
         verbose_name="Radicado", max_length=50, blank=True, null=True)
     date_pqrsdf = models.DateTimeField(verbose_name="Fecha", auto_now_add=True)
-    state = models.CharField(verbose_name="Estado",
-                             max_length=100, choices=STATE, default='Radicacion')
-    type_pqrsdf = models.CharField(
-        max_length=10, choices=TYPE_PQRSDF, verbose_name="Tipo de PQRSDF")
+    state_actual = models.IntegerField(verbose_name="Estado",
+                             choices=STATE_OPTIONS, default=1)
+    type_pqrsdf = models.IntegerField(
+        choices=TYPE_PQRSDF, verbose_name="Tipo de PQRSDF")
     type_anonymous = models.BooleanField(blank=True, null=True)
     name = models.CharField(
         max_length=30, verbose_name="Nombre", blank=True, null=True)
-    type_identification = models.CharField(
-        max_length=3, choices=TYPE_IDENTIFICATION, verbose_name="Tipo de identificación", blank=True, null=True)
+    type_identification = models.IntegerField(
+        choices=TYPE_IDENTIFICATION, verbose_name="Tipo de identificación", blank=True, null=True)
     identification = models.CharField(
         max_length=30, verbose_name="Identificación", blank=True, null=True)
-    medium_contact = models.CharField(
-        max_length=2, choices=MEDIUM_CONTACT, verbose_name="Medio de contacto", blank=True, null=True)
+    medium_contact = models.IntegerField(
+        choices=MEDIUM_CONTACT, verbose_name="Medio de contacto", blank=True, null=True)
     email = models.CharField(
         max_length=200, verbose_name="Correo electrónico", blank=True, null=True)
     correspondence_address = models.CharField(
@@ -64,36 +64,34 @@ class Pqrsdf(models.Model):
         verbose_name_plural = "Pqrsdf"
 
     def __str__(self):
-        return self.type_pqrsdf
-
-    def save(self, *args, **kwargs):
-        print(self.radicated)
-        if self.radicated == None:
-            lastRadicate = Pqrsdf.objects.last()
-            string = str(lastRadicate.radicated)
-            separate = list(string.split("CU"))
-            number = separate[-1]
-            newNumber = int(number) + 1
-            rad = str(newNumber)
-            radNew = 'CU' + rad.zfill(3)
-            self.radicated = radNew
-        else:
-            self.radicated = self.radicated
-        super(Pqrsdf, self).save(*args, **kwargs)
+        return str(self.type_pqrsdf)
 
 
 class PqrsdfState(models.Model):
     id_pqrsdf = models.ForeignKey(
-        Pqrsdf, null=True, blank=True, on_delete=models.CASCADE)
-    date_input = models.DateField(
-        verbose_name="Fecha Entrada", null=True, blank=True, auto_now=True)
-    date_output = models.DateField(
-        verbose_name="Fecha Salida", null=True, blank=True, auto_now=True)
-    user_change_input = models.CharField(
-        max_length=191, verbose_name="Usuario entrada", null=True,  blank=True)
-    user_change_output = models.CharField(
-        max_length=10, verbose_name="Usuario Salida", null=True,  blank=True)
+        Pqrsdf, on_delete=models.CASCADE, verbose_name="Id pqrsdf")
+    state = models.IntegerField(choices=Pqrsdf.STATE_OPTIONS, default=1)
+    date_previous_change = models.DateTimeField(verbose_name="Fecha anterior",null=True)
+    date_change = models.DateTimeField(
+        verbose_name="Fecha Actual", null=True, blank=True, auto_now=True)
+    user_previous_change = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Usuario Anterior', null=True, related_name='%(class)s_previous_change')
+    user_change = models.ForeignKey(User, on_delete=models.PROTECT,verbose_name="Usuario Actual", related_name='%(class)s_change', null=True)
 
     class Meta:
         verbose_name = 'PqrsdfState'
         verbose_name_plural = "PqrsdfStates"
+    
+        
+    def __str__(self):
+        return self.get_state_display()
+
+
+class ResponsePqrsdf(models.Model):
+    pqrsdf = models.ForeignKey(Pqrsdf, on_delete=models.CASCADE, verbose_name='Respuesta')
+    date_creation = models.DateTimeField(auto_now_add=True)
+    response = models.TextField(blank=True)
+    user_response = models.ForeignKey(User, on_delete=models.PROTECT,verbose_name="Usuario")
+    
+    class Meta:
+        verbose_name = "Response"
+        verbose_name_plural = "Responses"

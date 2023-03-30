@@ -58,7 +58,7 @@
               <tr>
                 <td class="serial">{{pqrsdf.id}}</td>
                 <td class="serial">{{pqrsdf.radicated}}</td>
-                <td>{{pqrsdf.type_pqrsdf}}</td>
+                <td>{{pqrsdf.get_type_pqrsdf_display}}</td>
                 <td>{{pqrsdf.date_pqrsdf}}</td>
                 <td>
                   {% if pqrsdf.type_anonymous == True %}
@@ -68,14 +68,22 @@
                   {% endif %}
                 </td>
                 <td>
-                  {% if pqrsdf.state == 'Radicacion' %}
-                  <span class="badge text-bg-primary">{{pqrsdf.state}}</span>
-                  {% elif pqrsdf.state == 'Elaboracion'%}
-                  <span class="badge text-bg-dark">{{pqrsdf.state}}</span>
-                  {% elif pqrsdf.state == 'Revision'%}
-                  <span class="badge text-bg-warning">{{pqrsdf.state}}</span>
-                  {% elif pqrsdf.state == 'Finalizado'%}
-                  <span class="badge text-bg-success">{{pqrsdf.state}}</span>
+                  {% if pqrsdf.state_actual == 1 %}
+                  <span class="badge text-bg-primary"
+                    >{{pqrsdf.get_state_actual_display}}</span
+                  >
+                  {% elif pqrsdf.state_actual == 2%}
+                  <span class="badge text-bg-dark"
+                    >{{pqrsdf.get_state_actual_display}}</span
+                  >
+                  {% elif pqrsdf.state_actual == 3%}
+                  <span class="badge text-bg-warning"
+                    >{{pqrsdf.get_state_actual_display}}</span
+                  >
+                  {% elif pqrsdf.state_actual == 4%}
+                  <span class="badge text-bg-success"
+                    >{{pqrsdf.get_state_actual_display}}</span
+                  >
                   {% endif %}
                 </td>
                 <td>

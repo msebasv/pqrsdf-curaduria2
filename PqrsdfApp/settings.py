@@ -83,7 +83,7 @@ DATABASES = {
         'NAME': 'pqrsdfdb',
         'USER': 'curaduria2',
         'PASSWORD': '123456',
-        'HOST': '192.168.56.101',
+        'HOST': 'localhost',
         'DATABASE_PORT': '5432',
     }
 }

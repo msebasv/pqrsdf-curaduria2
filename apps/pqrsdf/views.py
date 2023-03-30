@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, DetailView
 from django.urls import reverse_lazy
 from .models import Pqrsdf, PqrsdfState
-from .forms import PqrsdfForm
+from .forms import PqrsdfForm, StateForm
+from django.db.models import F
 # Create your views here.
 
 
@@ -38,9 +40,54 @@ class GetPqrsdfs(ListView):
 class DetailPqrsdf(DetailView):
     model = Pqrsdf
     template_name = 'pqrsdf/detail_pqrsdf.html'
-    context_object_name = 'pqrsdfs'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pqrsdf = self.object
+        pqrsdf_states = PqrsdfState.objects.filter(id_pqrsdf=pqrsdf).order_by(F('date_change').desc(nulls_last=True))
+        context['pqrsdf_states'] = pqrsdf_states
+        return context
+    
+class UpdateState(UpdateView):
+    model = Pqrsdf
+    form_class = StateForm
+    template_name = 'pqrsdf/update_state.html'
+    success_url = reverse_lazy('pqrsdf:get_pqrsdfs')
 
+    def form_valid(self, form):
+        pqrsdf = form.save(commit=False)
+        state_actual = form.cleaned_data['state_actual']
+
+        pqrsdf_state = PqrsdfState.objects.filter(id_pqrsdf=pqrsdf).order_by('date_change').last()
+
+        date_previous_change = pqrsdf_state.date_change if pqrsdf_state else None
+        user_previous_change = pqrsdf_state.user_change if pqrsdf_state else None
+
+        # Crear registro con el estado actual y los datos de cambio
+        PqrsdfState.objects.create(
+            id_pqrsdf=pqrsdf,
+            state=state_actual,
+            date_previous_change=date_previous_change,
+            user_previous_change=user_previous_change,
+            date_change=timezone.now(),
+            user_change=self.request.user
+        )
+
+        return super().form_valid(form)
+
+    # def form_valid(self, form):
+    #     pqrsdf = form.save(commit=False) # Get pqrsdf actual
+    #     pqrsdf.state_actual = form.cleaned_data['state_actual']
+    #     pqrsdf.save()
+
+    #     PqrsdfState.objects.create(
+    #         id_pqrsdf = pqrsdf,
+    #         state = pqrsdf.state_actual,
+    #         date_change = timezone.now(),
+    #         user_change = self.request.user
+    #         )
+    #     return super().form_valid(form) 
+    
 class ListStatePqrsdf(ListView):
     model = PqrsdfState
     template_name = 'pqrsdf/detail_pqrsdf.html'
@@ -53,6 +100,33 @@ class CreatePqrsdf(CreateView):
     template_name = 'pqrsdf/create_pqrsdf.html'
     form_class = PqrsdfForm
     success_url = reverse_lazy('pqrsdf:get_pqrsdfs')
+    
+    def form_valid(self, form):
+        # Asignar usuario actual
+        form.instance.user = self.request.user
+        
+        # Generar radicado
+        lastRadicate = Pqrsdf.objects.last()
+        string = str(lastRadicate.radicated)
+        separate = list(string.split("CU"))
+        number = separate[-1]
+        newNumber = int(number) + 1
+        rad = str(newNumber)
+        radNew = 'CU' + rad.zfill(3)
+        form.instance.radicated = radNew
+        
+        # Guardar objeto Pqrsdf
+        response = super().form_valid(form)
+        
+        # Crear objeto PqrsdfState
+        pqrsdfstate = PqrsdfState(
+            id_pqrsdf=self.object,
+            state=Pqrsdf.STATE_OPTIONS[0][0], # Estado de Radicación
+            user_change=self.request.user
+        )
+        pqrsdfstate.save()
+        
+        return response
 
 
 class UpdatePqrsdf(UpdateView):

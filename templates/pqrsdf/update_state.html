@@ -1,0 +1,16 @@
+{% extends 'dashboard.html' %} {% load static %}<!-- Esto es un comentario -->
+{% block content %}
+<form action="{% url 'pqrsdf:update_state' pqrsdf.pk %}" method="post">
+  {% csrf_token %} {% for field in form %} {{ field.errors }}
+  <div id="{{field.id_for_label}}" class="form-group-input">
+    {{ field.label_tag }} {{field}}
+  </div>
+  {% endfor %}
+  <button type="submit" class="btn btn-primary">Actualizar estado</button>
+  <a href="{% url 'pqrsdf:detail_pqrsdf' pqrsdf.pk %}" class="btn btn-secondary"
+    >Cancelar</a
+  >
+</form>
+{% endblock content %} {% block extraJs %}
+<script src="{% static 'js/form.js' %}"></script>
+{% endblock extraJs %}
