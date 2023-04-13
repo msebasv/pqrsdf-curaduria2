@@ -8,7 +8,7 @@
           <strong class="card-title">Listado PQRSDF</strong>
         </div>
         <div class="row header-card-getpqrsdf">
-          <div class="col-md-8 create">
+          <div class="col-md-2 create">
             <a href="{% url 'pqrsdf:create_pqrsdf' %}">
               <button type="button" class="btn btn-danger">Crear pqrsdf</button>
             </a>
@@ -16,7 +16,7 @@
           <div class="col-md-4 search">
             <form method="GET">
               <div id="custom-search-input">
-                <div class="input-group col-md-12">
+                <div class="input-group col-md-4">
                   <input
                     type="text"
                     class="form-control"
@@ -29,11 +29,51 @@
                     <button type="submit" class="btn btn-success">
                       Buscar
                     </button>
-                    <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
                   </span>
                 </div>
               </div>
             </form>
+          </div>
+          <div class="col-md-4">
+            <div class="input-group col-md-4">
+              <select id="filter-type" name="filter-type" class="form-select">
+                <option value="">Todos</option>
+                <option value="type">Tipo de Pqrsdf</option>
+                <option value="state">Estado</option>
+              </select>
+              <button id="filter-btn" class="btn btn-success">Filtrar</button>
+            </div>
+          </div>
+          <div class="col-md-4" id="type-filter" style="display: none">
+            <form method="GET">
+              <div class="input-group col-md-4">
+                <select name="type_pqrsdf" class="form-select">
+                  <option value="">Todos</option>
+                  <option value="1" {% if request.GET.type_pqrsdf == '1' %}selected{% endif %}>Petición</option>
+                  <option value="2" {% if request.GET.type_pqrsdf == '2' %}selected{% endif %}>Queja/Reclamo</option>
+                  <option value="3" {% if request.GET.type_pqrsdf == '3' %}selected{% endif %}>Solicitud de información</option>
+                  <option value="4" {% if request.GET.type_pqrsdf == '4' %}selected{% endif %}>Denuncia</option>
+                  <option value="5" {% if request.GET.type_pqrsdf == '5' %}selected{% endif %}>Sugerencia/Propuesta</option>
+                </select>
+                <button type="submit" class="btn btn-success">Filtrar</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-4" id="state-filter" style="display: none">
+            <form method="GET">
+              <div class="input-group col-md-4">
+                <select name="state_actual" class="form-select">
+                  <option value="1">Radicación</option>
+                  <option value="2">Elaboración</option>
+                  <option value="3">Revisión</option>
+                  <option value="4">Finalizado</option>
+                </select>
+                <button type="submit" class="btn btn-success">Filtrar</button>
+              </div>
+            </form>
+          </div>
+          <div class="col-md-2">
+            <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
           </div>
         </div>
         <div class="table-stats order-table ov-h card-body">
@@ -47,6 +87,7 @@
                 <th class="serial">#</th>
                 <th>Radicado</th>
                 <th>Tipo</th>
+                <th>Días</th>
                 <th>Fecha de Creación</th>
                 <th>Anónimo</th>
                 <th>Estado</th>
@@ -59,12 +100,13 @@
                 <td class="serial">{{pqrsdf.id}}</td>
                 <td class="serial">{{pqrsdf.radicated}}</td>
                 <td>{{pqrsdf.get_type_pqrsdf_display}}</td>
+                <td>{{pqrsdf.days_passed}}</td>
                 <td>{{pqrsdf.date_pqrsdf}}</td>
                 <td>
                   {% if pqrsdf.type_anonymous == True %}
-                  <i class="menu-icon fa fa-check"></i>
+                  <span>SI</span>
                   {% else %}
-                  <i class="menu-icon fa fa-times"></i>
+                  <span>NO</span>
                   {% endif %}
                 </td>
                 <td>
@@ -104,7 +146,7 @@
                           >Ver</a
                         >
                       </li>
-                      <li>
+                      {% comment %} <li>
                         <a
                           class="dropdown-item"
                           href="{% url 'pqrsdf:update_pqrsdf' pqrsdf.id %}"
@@ -117,7 +159,7 @@
                           href="{% url 'pqrsdf:delete_pqrsdf' pqrsdf.id %}"
                           >Eliminar</a
                         >
-                      </li>
+                      </li> {% endcomment %}
                     </ul>
                   </div>
                 </td>
@@ -180,107 +222,23 @@
       </div>
     </div>
   </div>
-  <!-- .animated -->{% endblock content %} {% comment %} {% if pqrsdfs %}
-  <div class="container-search">
-    <div class="row">
-      <div class="col-md-8 create">
-        <a href="{% url 'pqrsdf:create_pqrsdf' %}">
-          <button type="button" class="btn btn-danger">Crear pqrsdf</button>
-        </a>
-      </div>
-      <div class="col-md-4 search">
-        <form method="GET">
-          <div id="custom-search-input">
-            <div class="input-group col-md-12">
-              <input
-                type="text"
-                class="form-control"
-                placeholder="Buscar"
-                name="search"
-                value="{{request.GET.search}}"
-              />
-              <span class="input-group-list">
-                <i class="icon icon-search"></i>
-                <button type="submit" class="btn btn-success">Buscar</button>
-                <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
-              </span>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  <div class="table-stats order-table ov-h">
-    <table id="bootstrap-data-table" class="table table-striped table-bordered">
-      <thead>
-        <tr>
-          <th class="serial">#</th>
-          <th>Tipo</th>
-          <th>Fecha de Creación</th>
-          <th>Anónimo</th>
-          <th>Estado</th>
-          <th>Opciones</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for pqrsdf in pqrsdfs %}
-        <tr>
-          <td class="serial">{{pqrsdf.id}}</td>
-          <td>{{pqrsdf.type_pqrsdf}}</td>
-          <td>{{pqrsdf.date_pqrsdf}}</td>
-          <td>{{pqrsdf.type_anonymous}}</td>
-          <td>
-            <span class="badge badge-complete">Finalizado</span>
-            <span class="badge badge-pending">Elaboración</span>
-          </td>
-          <td>
-            <a href="{% url 'pqrsdf:update_pqrsdf' pqrsdf.id %}">Editar</a>
-            <a href="{% url 'pqrsdf:delete_pqrsdf' pqrsdf.id %}">Eliminar</a>
-          </td>
-        </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <nav aria-label="Page navigation example">
-      <ul class="pagination">
-        {% if pqrsdfs.has_previous%}
-        <li class="page-item">
-          <a
-            class="page-link"
-            href="?page={{ pqrsdfs.previous_page_number}}{% if request.GET.search %}&q={{request.GET.search}}{% endif %}"
-            aria-label="Previous"
-          >
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        {% else %}
-        <li class="page-item" disabled>
-          <a class="page-link" aria-label="Previous">
-            <span aria-hidden="true">&laquo;</span>
-          </a>
-        </li>
-        {% endif %} {% if pqrsdfs.has_next%}
-        <li class="page-item">
-          <a
-            class="page-link"
-            href="?page={{ pqrsdfs.next_page_number}}{% if request.GET.search %}&q={{request.GET.search}}{% endif %}"
-            aria-label="Next"
-          >
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-        {% else %}
-        <li class="page-item" disabled>
-          <a class="page-link" aria-label="next">
-            <span aria-hidden="true">&raquo;</span>
-          </a>
-        </li>
-        {% endif %}
-      </ul>
-    </nav>
-
-    {% else %}
-    <h1>No existe Pqrsdf</h1>
-  </div>
-  {% endif %} {% endcomment %}
+  {% endblock content %}
 </div>
+{% block extraJs %}
+<script>
+  var filterBtn = document.getElementById("filter-btn");
+  var filterType = document.getElementById("filter-type");
+  var typeFilter = document.getElementById("type-filter");
+  var stateFilter = document.getElementById("state-filter");
+
+  filterBtn.addEventListener("click", function () {
+    if (filterType.value == "type") {
+      typeFilter.style.display = "block";
+      stateFilter.style.display = "none";
+    } else if (filterType.value == "state") {
+      typeFilter.style.display = "none";
+      stateFilter.style.display = "block";
+    }
+  });
+</script>
+{% endblock extraJs %}

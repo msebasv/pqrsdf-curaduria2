@@ -1,7 +1,35 @@
 {% extends 'dashboard.html' %} {% load static %}<!-- Esto es un comentario -->
 {% block content %}
 <form method="POST" class="form-horizontal">
-  {% csrf_token %} {% if error%}
+  {% csrf_token %}
+  <div
+    id="myModal"
+    class="modal fade"
+    tabindex="-1"
+    role="dialog"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header"><h3>Creación Exitosa PQRSDF</h3></div>
+        {% comment %} <span class="close">&times;</span> {% endcomment %}
+        <div class="modal-body">
+          <h5>Se ha creado la PQRSDF con éxito.</h5>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary close"
+            data-bs-dismiss="modal"
+          >
+            Close
+          </button>
+          <button id="acceptBtn" class="btn btn-primary">Aceptar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% if error%}
   <h2>{{error}}</h2>
   {% else %}
   <div class="row form-group">
@@ -19,4 +47,36 @@
 </form>
 {% endblock content %} {% block extraJs %}
 <script src="{% static 'js/form.js' %}"></script>
+<script>
+  // Aquí está el código JavaScript para mostrar el modal
+  var modal = document.getElementById("myModal");
+  var span = document.getElementsByClassName("close")[0];
+  var form = document.querySelector("form");
+  var acceptBtn = document.getElementById("acceptBtn");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var xhr = new XMLHttpRequest();
+    xhr.open(form.method, form.action, true);
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        // Aquí se muestra el modal
+        $(modal).modal("show");
+        acceptBtn.style.display = "block"; // Mostrar el botón "Aceptar"
+      }
+    };
+    xhr.send(new FormData(form));
+  });
+
+  // Cuando se hace clic en la X del modal, se cierra el modal
+  span.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // Redirigir al hacer clic en el botón "Aceptar"
+  acceptBtn.onclick = function () {
+    window.location.href = "{% url 'pqrsdf:get_pqrsdfs' %}";
+  };
+</script>
 {% endblock extraJs %}

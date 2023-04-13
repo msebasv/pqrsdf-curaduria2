@@ -4,7 +4,9 @@ from django.views.generic import TemplateView, ListView, UpdateView, CreateView,
 from django.urls import reverse_lazy
 from .models import Pqrsdf, PqrsdfState
 from .forms import PqrsdfForm, StateForm
-from django.db.models import F
+from django.db.models import F, Q
+from datetime import datetime, timedelta
+from django.utils.timezone import make_aware
 # Create your views here.
 
 
@@ -30,10 +32,24 @@ class GetPqrsdfs(ListView):
 
     def get_queryset(self):
         queryset = Pqrsdf.objects.filter(active=True).order_by('-date_pqrsdf')
-        if self.request.GET.get("search") != None:
-            queryset = self.request.GET.get("search")
-            queryset = Pqrsdf.objects.filter(
-                active=True, radicated__icontains=queryset) | Pqrsdf.objects.filter(active=True, type_pqrsdf__icontains=queryset)
+        search_query = self.request.GET.get("search")
+        if search_query:
+            radicated_filter = Q(radicated__icontains=search_query)
+            type_filter = Q(type_pqrsdf__icontains=search_query)
+            state_filter = Q(state_actual__icontains=search_query)
+            queryset = queryset.filter(radicated_filter | type_filter | state_filter)
+        type_pqrsdf = self.request.GET.get("type_pqrsdf")
+        state_actual = self.request.GET.get("state_actual")
+        if type_pqrsdf:
+            if type_pqrsdf == 'Todos':
+                pass
+            else:
+                queryset = Pqrsdf.filter_by_type(type_pqrsdf)
+        if state_actual:
+            if state_actual == 'Todos':
+                pass
+            else:
+                queryset = Pqrsdf.filter_by_state(state_actual)
         return queryset
 
 
@@ -75,19 +91,6 @@ class UpdateState(UpdateView):
 
         return super().form_valid(form)
 
-    # def form_valid(self, form):
-    #     pqrsdf = form.save(commit=False) # Get pqrsdf actual
-    #     pqrsdf.state_actual = form.cleaned_data['state_actual']
-    #     pqrsdf.save()
-
-    #     PqrsdfState.objects.create(
-    #         id_pqrsdf = pqrsdf,
-    #         state = pqrsdf.state_actual,
-    #         date_change = timezone.now(),
-    #         user_change = self.request.user
-    #         )
-    #     return super().form_valid(form) 
-    
 class ListStatePqrsdf(ListView):
     model = PqrsdfState
     template_name = 'pqrsdf/detail_pqrsdf.html'
@@ -117,7 +120,18 @@ class CreatePqrsdf(CreateView):
         
         # Guardar objeto Pqrsdf
         response = super().form_valid(form)
+        self.object.start_date = make_aware(datetime.now())
+        self.object.save()
         
+        # Asignar número de días a la instancia del modelo Pqrsdf
+        start_date = self.object.start_date
+        current_date = make_aware(datetime.now())
+        days_passed = current_date - start_date
+        self.object.days_passed = days_passed if days_passed else timedelta(0)
+        self.object.save()
+        
+        context = self.get_context_data()
+        context['days_passed'] = self.object.days_passed
         # Crear objeto PqrsdfState
         pqrsdfstate = PqrsdfState(
             id_pqrsdf=self.object,
@@ -125,7 +139,6 @@ class CreatePqrsdf(CreateView):
             user_change=self.request.user
         )
         pqrsdfstate.save()
-        
         return response
 
 
@@ -149,64 +162,3 @@ class DeletePqrsdf(DeleteView):
         object.active = False
         object.save()
         return redirect('pqrsdf:get_pqrsdfs')
-# def Home(request):
-#     return render(request, 'index.html')
-
-
-# def Login(request):
-#     return render(request, 'login.html')
-
-# def Dashboard(request):
-#     return render(request, 'dashboard.html')
-
-# def createPqrsdf(request):
-#     if request.method == 'POST':
-#         pqrsdf_form = PqrsdfForm(request.POST)
-#         if pqrsdf_form.is_valid():
-#             pqrsdf_form.save()
-#             return redirect('pqrsdf:get_pqrsdfs')
-#     else:
-#         pqrsdf_form = PqrsdfForm()
-#     return render(request, 'pqrsdf/create_pqrsdf.html', {'pqrsdf_form': pqrsdf_form})
-
-
-# def getPqrsdfs(request):
-#     queryset = request.GET.get("search")
-#     pqrsdfs = Pqrsdf.objects.filter(active=True)
-#     if queryset:
-#         pqrsdfs = Pqrsdf.objects.filter(
-#             Q(type_pqrsdf__icontains=queryset),
-#             active=True
-#         ).distinct()
-#     # Recibe el objeto, y cuanto quiere mostrar por página
-#     paginator = Paginator(pqrsdfs, 10)
-#     page = request.GET.get('page')  # Obtiene la página actual
-#     # Recibe el valor de la página y carga las pqrsdf correspondientes a esa página
-#     pqrsdfs = paginator.get_page(page)
-#     return render(request, 'pqrsdf/get_pqrsdfs.html',  {'pqrsdfs': pqrsdfs})
-
-# def updatePqrsdf(request, id):
-#     pqrsdf_form = None
-#     error = None
-#     try:
-#         pqrsdf = Pqrsdf.objects.get(id=id)
-#         if request.method == 'GET':
-#             pqrsdf_form = PqrsdfForm(instance=pqrsdf)
-#         else:
-#             pqrsdf_form = PqrsdfForm(request.POST, instance=pqrsdf)
-#             if pqrsdf_form.is_valid():
-#                 pqrsdf_form.save()
-#                 return redirect('pqrsdf:get_pqrsdfs')
-#     except ObjectDoesNotExist as e:
-#         error = e
-
-#     return render(request, 'pqrsdf/create_pqrsdf.html', {'pqrsdf_form': pqrsdf_form, 'error': error})
-
-
-# def deletePqrsdf(request, id):
-#     pqrsdf = Pqrsdf.objects.get(id=id)
-#     if request.method == "POST":
-#         pqrsdf.active = False
-#         pqrsdf.save()
-#         return redirect('pqrsdf:get_pqrsdfs')
-#     return render(request, 'pqrsdf/delete_pqrsdf.html', {'pqrsdf': pqrsdf})

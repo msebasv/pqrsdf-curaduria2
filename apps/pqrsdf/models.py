@@ -34,6 +34,7 @@ class Pqrsdf(models.Model):
     date_pqrsdf = models.DateTimeField(verbose_name="Fecha", auto_now_add=True)
     state_actual = models.IntegerField(verbose_name="Estado",
                              choices=STATE_OPTIONS, default=1)
+    days_passed = models.DurationField(verbose_name="Tiempo transcurrido", blank=True, null=True)
     type_pqrsdf = models.IntegerField(
         choices=TYPE_PQRSDF, verbose_name="Tipo de PQRSDF")
     type_anonymous = models.BooleanField(blank=True, null=True)
@@ -62,6 +63,14 @@ class Pqrsdf(models.Model):
     class Meta:
         verbose_name = "Pqrsdf"
         verbose_name_plural = "Pqrsdf"
+        
+    @staticmethod
+    def filter_by_type(type_pqrsdf):
+        return Pqrsdf.objects.filter(type_pqrsdf=type_pqrsdf)
+    
+    @staticmethod
+    def filter_by_state(state_actual):
+        return Pqrsdf.objects.filter(state_actual=state_actual)
 
     def __str__(self):
         return str(self.type_pqrsdf)

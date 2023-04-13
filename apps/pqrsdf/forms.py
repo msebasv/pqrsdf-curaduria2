@@ -1,5 +1,5 @@
 from django import forms
-from .models import Pqrsdf, PqrsdfState
+from .models import Pqrsdf
 
 
 class PqrsdfForm(forms.ModelForm):
