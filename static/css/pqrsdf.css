@@ -2114,6 +2114,21 @@ header .form-inline .search-form.close {
     -webkit-border-radius: 50%;
 }
 
+.type-pqrsdf {
+    color: red;
+    font-weight: bold;
+}
+
+.state-pqrsdf {
+    color: green;
+    font-weight: bold;
+}
+
+.required-field::after {
+    content: "* ";
+    color: red;
+}
+
 .card .card-header .card-actions button {
     display: block;
     float: left;

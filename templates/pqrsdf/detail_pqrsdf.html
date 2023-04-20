@@ -12,13 +12,10 @@
         <div class="row">
           <div class="col-sm-6 col-lg-12">
             <div class="mx-auto d-block">
-              <h5>Tipo: {{ object.get_type_pqrsdf_display}}</h5>
-              <h5>Estado: {{ object.get_state_actual_display }}</h5>
-              <h5>Tipo de identificación: {{ object.type_identification }}</h5>
-              <h5>Identificación: {{ object.identification}}</h5>
-              <h5>Contacto: {{ object.email }}</h5>
-              <h5>Descripción</h5>
-              <p>{{ object.description }}</p>
+              <h5 class="type_pqrsdf">Días: {{ object.days_passed }}</h5>
+              {% for key, value in fields.items %}
+              <h5 class="{{ value.class }}">{{ key }}: {{ value.value }}</h5>
+              {% endfor %}
             </div>
             <hr />
             <div class="card-text">

@@ -5,8 +5,6 @@ from django.urls import reverse_lazy
 from .models import Pqrsdf, PqrsdfState
 from .forms import PqrsdfForm, StateForm
 from django.db.models import F, Q
-from datetime import datetime, timedelta
-from django.utils.timezone import make_aware
 # Create your views here.
 
 
@@ -16,7 +14,6 @@ class Home(TemplateView):
 
 class Dashboard(TemplateView):
     template_name = 'dashboard.html'
-
 
 class GetPqrsdfs(ListView):
     """Gets the list of pqrsdf
@@ -50,6 +47,10 @@ class GetPqrsdfs(ListView):
                 pass
             else:
                 queryset = Pqrsdf.filter_by_state(state_actual)
+            # Actualizar el valor de days_passed
+        for pqrsdf in queryset:
+            pqrsdf.days_passed = pqrsdf.days_since_created
+            pqrsdf.save()
         return queryset
 
 
@@ -62,6 +63,26 @@ class DetailPqrsdf(DetailView):
         pqrsdf = self.object
         pqrsdf_states = PqrsdfState.objects.filter(id_pqrsdf=pqrsdf).order_by(F('date_change').desc(nulls_last=True))
         context['pqrsdf_states'] = pqrsdf_states
+        fields = {
+            'Tipo': {'value': pqrsdf.get_type_pqrsdf_display(), 'class': 'type-pqrsdf'},
+            'Estado': {'value': pqrsdf.get_state_actual_display(), 'class': 'state-pqrsdf'},
+            'Nombre': {'value':pqrsdf.name, 'class': 'none'},
+            'Tipo de identificación': {'value':pqrsdf.get_type_identification_display(), 'class': 'none'},
+            'Identificación': {'value':pqrsdf.identification, 'class': 'none'},
+            'Correo electrónico': {'value':pqrsdf.email, 'class': 'none'},
+            'Dirección de correspondencia': {'value':pqrsdf.correspondence_address, 'class': 'none'},
+            'Barrio / Vereda / Corregimiento': {'value':pqrsdf.neighborhood, 'class': 'none'},
+            'Municipio / Distrito': {'value':pqrsdf.municipality, 'class': 'none'},
+            'País': {'value':pqrsdf.country, 'class': 'none'},
+            'Número de contacto': {'value':pqrsdf.number_contact, 'class': 'none'},
+            'Descripción': {'value':pqrsdf.description, 'class': 'none'},
+            # Agrega aquí los campos adicionales que desees mostrar
+        }
+
+        # Agregar sólo aquellos campos que no estén vacíos o None al contexto "k" Hace referencia a la key y "v" hace referencia al value
+        context['fields'] = {k: v for k, v in fields.items() if v.get('value', '')}
+
+
         return context
     
 class UpdateState(UpdateView):
@@ -120,18 +141,12 @@ class CreatePqrsdf(CreateView):
         
         # Guardar objeto Pqrsdf
         response = super().form_valid(form)
-        self.object.start_date = make_aware(datetime.now())
-        self.object.save()
         
-        # Asignar número de días a la instancia del modelo Pqrsdf
-        start_date = self.object.start_date
-        current_date = make_aware(datetime.now())
-        days_passed = current_date - start_date
-        self.object.days_passed = days_passed if days_passed else timedelta(0)
-        self.object.save()
-        
-        context = self.get_context_data()
-        context['days_passed'] = self.object.days_passed
+        pqrsdf = self.object
+        pqrsdf.date_pqrsdf = timezone.now()
+        pqrsdf.days_passed = pqrsdf.days_since_created
+        pqrsdf.save()
+
         # Crear objeto PqrsdfState
         pqrsdfstate = PqrsdfState(
             id_pqrsdf=self.object,
@@ -140,7 +155,6 @@ class CreatePqrsdf(CreateView):
         )
         pqrsdfstate.save()
         return response
-
 
 class UpdatePqrsdf(UpdateView):
     model = Pqrsdf

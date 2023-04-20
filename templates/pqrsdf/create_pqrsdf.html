@@ -24,7 +24,14 @@
           >
             Close
           </button>
-          <button id="acceptBtn" class="btn btn-primary">Aceptar</button>
+          <button
+            id="acceptBtn"
+            class="btn btn-primary"
+            data-dismiss="modal"
+            type="button"
+          >
+            Aceptar
+          </button>
         </div>
       </div>
     </div>
@@ -41,7 +48,7 @@
       {% endfor %}
     </div>
   </div>
-  <button type="submit" class="btn btn-success">Guardar</button>
+  <button id="guardarBtn" type="submit" class="btn btn-success">Guardar</button>
   <a href="{% url 'pqrsdf:get_pqrsdfs' %}">Cancelar</a>
   {% endif %}
 </form>
@@ -64,6 +71,7 @@
         // Aquí se muestra el modal
         $(modal).modal("show");
         acceptBtn.style.display = "block"; // Mostrar el botón "Aceptar"
+        document.getElementById("guardarBtn").disabled = true;
       }
     };
     xhr.send(new FormData(form));
@@ -78,5 +86,9 @@
   acceptBtn.onclick = function () {
     window.location.href = "{% url 'pqrsdf:get_pqrsdfs' %}";
   };
+
+  $("#myModal").on("hidden.bs.modal", function () {
+    $(this).remove(); // Elimina el modal del DOM
+  });
 </script>
 {% endblock extraJs %}

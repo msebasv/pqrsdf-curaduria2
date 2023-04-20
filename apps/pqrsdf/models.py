@@ -1,7 +1,10 @@
 from django.db import models
 from apps.user.models import User
-# Create your models here.
+from datetime import datetime, timezone, date
+from workalendar.america import Colombia
 
+cal = Colombia()
+# Create your models here.
 
 class Pqrsdf(models.Model):
     STATE_OPTIONS = (
@@ -34,7 +37,7 @@ class Pqrsdf(models.Model):
     date_pqrsdf = models.DateTimeField(verbose_name="Fecha", auto_now_add=True)
     state_actual = models.IntegerField(verbose_name="Estado",
                              choices=STATE_OPTIONS, default=1)
-    days_passed = models.DurationField(verbose_name="Tiempo transcurrido", blank=True, null=True)
+    days_passed = models.IntegerField(verbose_name="Tiempo transcurrido", blank=True, null=True)
     type_pqrsdf = models.IntegerField(
         choices=TYPE_PQRSDF, verbose_name="Tipo de PQRSDF")
     type_anonymous = models.BooleanField(blank=True, null=True)
@@ -71,6 +74,16 @@ class Pqrsdf(models.Model):
     @staticmethod
     def filter_by_state(state_actual):
         return Pqrsdf.objects.filter(state_actual=state_actual)
+    
+    @property
+    def days_since_created(self):
+        """
+        Calcula los días transcurridos desde la creación del objeto `Pqrsdf` hasta la fecha actual.
+        """
+        if not self.date_pqrsdf:
+            return 0
+        days_passed = cal.get_working_days_delta(self.date_pqrsdf.date(), date.today())
+        return days_passed #Compara con 0 y así nunca regresa un número negativo
 
     def __str__(self):
         return str(self.type_pqrsdf)

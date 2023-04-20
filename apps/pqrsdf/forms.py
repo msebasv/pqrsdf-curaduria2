@@ -3,6 +3,8 @@ from .models import Pqrsdf
 
 
 class PqrsdfForm(forms.ModelForm):
+    required_css_class = 'required-field'
+    label_suffix = ''
     class Meta:
         model = Pqrsdf
         fields = ['type_pqrsdf', 'type_anonymous', 'name', 'type_identification',
@@ -25,7 +27,8 @@ class PqrsdfForm(forms.ModelForm):
         widgets = {
             'type_pqrsdf': forms.Select(
                 attrs={
-                    'class': 'form-control'
+                    'class': 'form-control',
+                    'required': True,
                 }
             ),
             'type_anonymous': forms.CheckboxInput(
