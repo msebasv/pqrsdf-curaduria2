@@ -260,6 +260,7 @@
           </div>
         </div>
       </div>
+      {% block containerHome %}
       <div class="container container-home">
         <div class="row">
           <div class="col col1 col-lg-12">
@@ -283,9 +284,7 @@
               </div>
               <div class="new-pqrsdf">
                 <label> Para crear una nueva PQRSDF</label>
-                <a href="https://curaduria2bogota.com/contacto/"
-                  >haz click aquí</a
-                >
+                <a href="{% url 'create_pqrsdf' %}">haz click aquí</a>
               </div>
               <div class="attention-channel">
                 <p>Canal de atención: info@curaduria2bogota.com</p>
@@ -338,6 +337,7 @@
           </div>
         </div>
       </div>
+      {% endblock %}
     </main>
     <footer class="footer-layout">
       <div class="container container-footer">

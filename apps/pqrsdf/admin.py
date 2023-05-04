@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Pqrsdf, PqrsdfState, ResponsePqrsdf
+from .models import Pqrsdf, PqrsdfState, ResponsePqrsdf, PqrsdfFile
 # Register your models here.
 
 
@@ -15,11 +15,15 @@ class PqrsdfStateAdmin(admin.ModelAdmin):
 class ResponsePqrsdfAdmin(admin.ModelAdmin):
     list_display = ('pqrsdf', 'date_creation',
                     'response', 'user_response')
+    
+class PqrsdfFileAdmin(admin.ModelAdmin):
+    list_display = ('pqrsdf', 'file')
 
 
 admin.site.register(Pqrsdf, PqrsdfAdmin)
 admin.site.register(PqrsdfState, PqrsdfStateAdmin)
 admin.site.register(ResponsePqrsdf, ResponsePqrsdfAdmin)
+admin.site.register(PqrsdfFile, PqrsdfFileAdmin)
 
 
 

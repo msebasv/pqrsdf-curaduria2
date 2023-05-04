@@ -1,6 +1,8 @@
 from django.urls import path
 from django.contrib.auth.decorators import login_required
-from .views import CreatePqrsdf, GetPqrsdfs, UpdatePqrsdf, DeletePqrsdf, DetailPqrsdf, UpdateState
+from .views import CreatePqrsdf, GetPqrsdfs, UpdatePqrsdf, DeletePqrsdf, DetailPqrsdf, UpdateState, DownloadFileView
+from django.conf import settings
+from django.conf.urls.static import static
 urlpatterns = [
     path('create_pqrsdf/', login_required(CreatePqrsdf.as_view()),
          name="create_pqrsdf"),
@@ -12,5 +14,6 @@ urlpatterns = [
     path('update_pqrsdf/<int:pk>',
          login_required(UpdatePqrsdf.as_view()), name="update_pqrsdf"),
     path('delete_pqrsdf/<int:pk>',
-         login_required(DeletePqrsdf.as_view()), name="delete_pqrsdf")
+         login_required(DeletePqrsdf.as_view()), name="delete_pqrsdf"),
+    path('pqrsdf/detail_pqrsdf/<int:pk>/download/', DownloadFileView.as_view(), name='download_file'),
 ]

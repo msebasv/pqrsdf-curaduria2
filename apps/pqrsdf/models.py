@@ -62,7 +62,8 @@ class Pqrsdf(models.Model):
     number_contact = models.CharField(
         max_length=30, verbose_name="Número de contacto", blank=True, null=True)
     description = models.TextField(verbose_name="Descripción")
-
+    file_id = models.ForeignKey('PqrsdfFile', verbose_name="Adjunto", related_name='pqrsdf_files', on_delete=models.CASCADE, null=True, blank=True)
+    
     class Meta:
         verbose_name = "Pqrsdf"
         verbose_name_plural = "Pqrsdf"
@@ -87,6 +88,21 @@ class Pqrsdf(models.Model):
 
     def __str__(self):
         return str(self.type_pqrsdf)
+
+class PqrsdfFile(models.Model):
+    pqrsdf = models.ForeignKey(Pqrsdf, on_delete=models.CASCADE)
+    file = models.FileField(upload_to='pqrsdf_files/')
+    
+    class Meta:
+        verbose_name = "PqrsdfFile"
+        verbose_name_plural = "PqrsdfFile"
+    
+    def __str__(self):
+        return f"{self.id}"
+        
+    @property
+    def file_url(self):
+        return self.file.url
 
 
 class PqrsdfState(models.Model):

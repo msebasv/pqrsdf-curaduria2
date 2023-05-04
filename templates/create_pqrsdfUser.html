@@ -1,0 +1,101 @@
+{% extends 'index.html' %}{% load static %}{% block containerHome %}
+<div class="container-form-create-user">
+  <form method="POST" class="form-horizontal form-create-user">
+    {% csrf_token %}
+    <div
+      id="myModal"
+      class="modal fade"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header"><h3>Creación Exitosa PQRSDF</h3></div>
+          {% comment %} <span class="close">&times;</span> {% endcomment %}
+          <div class="modal-body">
+            <h5>Se ha creado la PQRSDF con éxito.</h5>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary close"
+              data-bs-dismiss="modal"
+            >
+              Close
+            </button>
+            <button
+              id="acceptBtn"
+              class="btn btn-primary"
+              data-dismiss="modal"
+              type="button"
+            >
+              Aceptar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    {% if error%}
+    <h2>{{error}}</h2>
+    {% else %}
+    <span>
+      Los campos que tienen <span style="color: red">*</span> Son obligatorios
+    </span>
+    <br />
+    <div class="row form-group">
+      <div class="col-12 col-md-12">
+        {% for field in form %} {{ field.errors }}
+        <div id="{{field.id_for_label}}" class="form-group-input">
+          {{ field.label_tag }} {{field}}
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    <button id="guardarBtn" type="submit" class="btn btn-success">
+      Guardar
+    </button>
+    <a href="{% url 'index' %}">Cancelar</a>
+    {% endif %}
+  </form>
+</div>
+{% endblock containerHome %}{% block extraJs %}
+<script src="{% static 'js/form.js' %}"></script>
+<script>
+  // Aquí está el código JavaScript para mostrar el modal
+  var modal = document.getElementById("myModal");
+  var span = document.getElementsByClassName("close")[0];
+  var form = document.querySelector("form");
+  var acceptBtn = document.getElementById("acceptBtn");
+
+  form.addEventListener("submit", function (event) {
+    event.preventDefault();
+    var xhr = new XMLHttpRequest();
+    xhr.open(form.method, form.action, true);
+    xhr.setRequestHeader("X-Requested-With", "XMLHttpRequest");
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        // Aquí se muestra el modal
+        $(modal).modal("show");
+        acceptBtn.style.display = "block"; // Mostrar el botón "Aceptar"
+        document.getElementById("guardarBtn").disabled = true;
+      }
+    };
+    xhr.send(new FormData(form));
+  });
+
+  // Cuando se hace clic en la X del modal, se cierra el modal
+  span.onclick = function () {
+    modal.style.display = "none";
+  };
+
+  // Redirigir al hacer clic en el botón "Aceptar"
+  acceptBtn.onclick = function () {
+    window.location.href = "{% url 'index' %}";
+  };
+
+  $("#myModal").on("hidden.bs.modal", function () {
+    $(this).remove(); // Elimina el modal del DOM
+  });
+</script>
+{% endblock extraJs %}

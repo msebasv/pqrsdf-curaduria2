@@ -468,6 +468,16 @@ body {
     width: 100%;
 }
 
+.container-form-create-user {
+    display: flex;
+    justify-content: center;
+}
+
+.form-create-user {
+    width: 90%;
+    margin-top: 20px;
+}
+
 p {
     font-size: 16px;
     font-family: "Open Sans", sans-serif;
@@ -2122,6 +2132,10 @@ header .form-inline .search-form.close {
 .state-pqrsdf {
     color: green;
     font-weight: bold;
+}
+
+.label_file {
+    font-weight: 700;
 }
 
 .required-field::after {
@@ -3836,6 +3850,7 @@ footer.site-footer .footer-inner a {
 #cellPaiChart .pieLabel {
     top: 50px !important;
 }
+
 
 #cellPaiChart .pieLabel div {
     font-size: 16px !important;

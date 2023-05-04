@@ -15,7 +15,15 @@
               <h5 class="type_pqrsdf">Días: {{ object.days_passed }}</h5>
               {% for key, value in fields.items %}
               <h5 class="{{ value.class }}">{{ key }}: {{ value.value }}</h5>
-              {% endfor %}
+              {% endfor %} {% if pqrsdf.file_id %}
+              <h5 class="label_file">Archivo Adjunto</h5>
+              <a
+                href="{% url 'pqrsdf:download_file' pk=pqrsdf.pk %}"
+                class="btn btn-default"
+              >
+                <i class="fa fa-download"></i> Descargar archivo
+              </a>
+              {% endif %}
             </div>
             <hr />
             <div class="card-text">

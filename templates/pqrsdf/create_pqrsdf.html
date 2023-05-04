@@ -39,6 +39,10 @@
   {% if error%}
   <h2>{{error}}</h2>
   {% else %}
+  <span>
+    Los campos que tienen <span style="color: red">*</span> Son obligatorios
+  </span>
+  <br />
   <div class="row form-group">
     <div class="col-12 col-md-12">
       {% for field in form %} {{ field.errors }}

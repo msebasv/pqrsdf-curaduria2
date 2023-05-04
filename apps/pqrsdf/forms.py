@@ -1,10 +1,19 @@
 from django import forms
-from .models import Pqrsdf
+from .models import Pqrsdf, PqrsdfFile
 
 
 class PqrsdfForm(forms.ModelForm):
     required_css_class = 'required-field'
     label_suffix = ''
+    file = forms.FileField(
+        label='Archivo adjunto',
+        required=False,
+        widget=forms.ClearableFileInput(
+            attrs={
+                'class': 'form-control'
+            }
+        )
+    )
     class Meta:
         model = Pqrsdf
         fields = ['type_pqrsdf', 'type_anonymous', 'name', 'type_identification',

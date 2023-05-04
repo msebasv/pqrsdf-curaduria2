@@ -1,10 +1,15 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
-from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, DetailView
+from django.views.generic import TemplateView, ListView, UpdateView, CreateView, DeleteView, DetailView, View
 from django.urls import reverse_lazy
-from .models import Pqrsdf, PqrsdfState
+from .models import Pqrsdf, PqrsdfState, PqrsdfFile
 from .forms import PqrsdfForm, StateForm
 from django.db.models import F, Q
+from django.http import HttpResponse, Http404, FileResponse
+from django.contrib.auth import get_user_model
+import os
+from django.conf import settings
+
 # Create your views here.
 
 
@@ -52,6 +57,18 @@ class GetPqrsdfs(ListView):
             pqrsdf.days_passed = pqrsdf.days_since_created
             pqrsdf.save()
         return queryset
+    
+class DownloadFileView(View):
+    def get(self, request, pk):
+        pqrsdf = get_object_or_404(Pqrsdf, pk=pk)
+        pqrsdf_file = pqrsdf.file_id
+        if pqrsdf_file:
+            file_path = pqrsdf_file.file.path
+            with open(file_path, 'rb') as fh:
+                response = HttpResponse(fh.read(), content_type='application/octet-stream')
+                response['Content-Disposition'] = 'inline; filename=' + os.path.basename(file_path)
+                return response
+        raise Http404('El archivo no existe')
 
 
 class DetailPqrsdf(DetailView):
@@ -63,27 +80,27 @@ class DetailPqrsdf(DetailView):
         pqrsdf = self.object
         pqrsdf_states = PqrsdfState.objects.filter(id_pqrsdf=pqrsdf).order_by(F('date_change').desc(nulls_last=True))
         context['pqrsdf_states'] = pqrsdf_states
+        pqrsdf_file = pqrsdf.file_id
+        file_name = pqrsdf_file.file.name if pqrsdf_file else ''
+
         fields = {
             'Tipo': {'value': pqrsdf.get_type_pqrsdf_display(), 'class': 'type-pqrsdf'},
             'Estado': {'value': pqrsdf.get_state_actual_display(), 'class': 'state-pqrsdf'},
-            'Nombre': {'value':pqrsdf.name, 'class': 'none'},
-            'Tipo de identificación': {'value':pqrsdf.get_type_identification_display(), 'class': 'none'},
-            'Identificación': {'value':pqrsdf.identification, 'class': 'none'},
-            'Correo electrónico': {'value':pqrsdf.email, 'class': 'none'},
-            'Dirección de correspondencia': {'value':pqrsdf.correspondence_address, 'class': 'none'},
-            'Barrio / Vereda / Corregimiento': {'value':pqrsdf.neighborhood, 'class': 'none'},
-            'Municipio / Distrito': {'value':pqrsdf.municipality, 'class': 'none'},
-            'País': {'value':pqrsdf.country, 'class': 'none'},
-            'Número de contacto': {'value':pqrsdf.number_contact, 'class': 'none'},
-            'Descripción': {'value':pqrsdf.description, 'class': 'none'},
-            # Agrega aquí los campos adicionales que desees mostrar
+            'Nombre': {'value': pqrsdf.name, 'class': 'none'},
+            'Tipo de identificación': {'value': pqrsdf.get_type_identification_display(), 'class': 'none'},
+            'Identificación': {'value': pqrsdf.identification, 'class': 'none'},
+            'Correo electrónico': {'value': pqrsdf.email, 'class': 'none'},
+            'Dirección de correspondencia': {'value': pqrsdf.correspondence_address, 'class': 'none'},
+            'Barrio / Vereda / Corregimiento': {'value': pqrsdf.neighborhood, 'class': 'none'},
+            'Municipio / Distrito': {'value': pqrsdf.municipality, 'class': 'none'},
+            'País': {'value': pqrsdf.country, 'class': 'none'},
+            'Número de contacto': {'value': pqrsdf.number_contact, 'class': 'none'},
+            'Descripción': {'value': pqrsdf.description, 'class': 'none'},
         }
-
         # Agregar sólo aquellos campos que no estén vacíos o None al contexto "k" Hace referencia a la key y "v" hace referencia al value
         context['fields'] = {k: v for k, v in fields.items() if v.get('value', '')}
-
-
         return context
+
     
 class UpdateState(UpdateView):
     model = Pqrsdf
@@ -154,6 +171,18 @@ class CreatePqrsdf(CreateView):
             user_change=self.request.user
         )
         pqrsdfstate.save()
+        
+        # Obtener el archivo enviado por el usuario
+        file = self.request.FILES.get('file')
+
+        if file:
+            # Crear objeto PqrsdfFile y guardar el archivo
+            pqrsdf_file = PqrsdfFile(pqrsdf=pqrsdf, file=file)
+            pqrsdf_file.save()
+
+            # Actualizar la Pqrsdf con la referencia al archivo creado
+            pqrsdf.file_id = pqrsdf_file
+            pqrsdf.save()
         return response
 
 class UpdatePqrsdf(UpdateView):
@@ -176,3 +205,52 @@ class DeletePqrsdf(DeleteView):
         object.active = False
         object.save()
         return redirect('pqrsdf:get_pqrsdfs')
+
+
+class CreatePqrsdfUser(CreateView):
+    model = Pqrsdf
+    template_name = 'create_pqrsdfUser.html'
+    form_class = PqrsdfForm
+    success_url = reverse_lazy('index')
+    def form_valid(self, form):
+        # Asignar usuario actual
+        form.instance.user = None
+        
+        # Generar radicado
+        lastRadicate = Pqrsdf.objects.last()
+        string = str(lastRadicate.radicated)
+        separate = list(string.split("CU"))
+        number = separate[-1]
+        newNumber = int(number) + 1
+        rad = str(newNumber)
+        radNew = 'CU' + rad.zfill(3)
+        form.instance.radicated = radNew
+        
+        # Guardar objeto Pqrsdf
+        response = super().form_valid(form)
+        
+        pqrsdf = self.object
+        pqrsdf.date_pqrsdf = timezone.now()
+        pqrsdf.days_passed = pqrsdf.days_since_created
+        pqrsdf.save()
+
+        # Crear objeto PqrsdfState
+        pqrsdfstate = PqrsdfState(
+            id_pqrsdf=self.object,
+            state=Pqrsdf.STATE_OPTIONS[0][0], # Estado de Radicación
+            user_change=None
+        )
+        pqrsdfstate.save()
+        
+        # Obtener el archivo enviado por el usuario
+        file = self.request.FILES.get('file')
+
+        if file:
+            # Crear objeto PqrsdfFile y guardar el archivo
+            pqrsdf_file = PqrsdfFile(pqrsdf=pqrsdf, file=file)
+            pqrsdf_file.save()
+
+            # Actualizar la Pqrsdf con la referencia al archivo creado
+            pqrsdf.file_id = pqrsdf_file
+            pqrsdf.save()
+        return response
