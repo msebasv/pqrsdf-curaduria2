@@ -39,26 +39,36 @@
     {% if error%}
     <h2>{{error}}</h2>
     {% else %}
-    <span>
-      Los campos que tienen <span style="color: red">*</span> Son obligatorios
-    </span>
-    <br />
-    <div class="row form-group">
-      <div class="col-12 col-md-12">
-        {% for field in form %} {{ field.errors }}
-        <div id="{{field.id_for_label}}" class="form-group-input">
-          {{ field.label_tag }} {{field}}
+    <div class="card">
+      <div class="card-header">
+        <strong class="card-title">Crear PQRSDF</strong>
+      </div>
+      <div class="card-body">
+        <span>
+          Los campos que tienen <span style="color: red">*</span> Son
+          obligatorios
+        </span>
+        <br />
+        <br />
+        <div class="row form-group">
+          <div class="col-12 col-md-12">
+            {% for field in form %} {{ field.errors }}
+            <div id="{{field.id_for_label}}" class="form-group-input">
+              {{ field.label_tag }} {{field}}
+            </div>
+            {% endfor %}
+          </div>
         </div>
-        {% endfor %}
+        <button id="guardarBtn" type="submit" class="btn btn-success">
+          Guardar
+        </button>
+        <a href="{% url 'index' %}">Cancelar</a>
       </div>
     </div>
-    <button id="guardarBtn" type="submit" class="btn btn-success">
-      Guardar
-    </button>
-    <a href="{% url 'index' %}">Cancelar</a>
     {% endif %}
   </form>
 </div>
+<br />
 {% endblock containerHome %}{% block extraJs %}
 <script src="{% static 'js/form.js' %}"></script>
 <script>

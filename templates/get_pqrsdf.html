@@ -1,0 +1,21 @@
+{% extends 'index.html' %} {% load static %} {% block containerHome %}
+<div class="card">
+  <div class="card-header">
+    <strong class="card-title">RADICADO No. {{ pqrsdf.radicated }}</strong>
+  </div>
+  <div class="card-body">
+    {% if pqrsdf %}
+    <p>Fecha de radicación: {{pqrsdf.date_pqrsdf}}</p>
+    <p>Estado: {{ pqrsdf.get_state_actual_display }}</p>
+    {% else %}
+    <p>{{ error_message }}</p>
+    {% endif %}
+    <a href="{% url 'index' %}">
+      <button id="atrasBtn" type="button" class="btn btn-success">
+        Atras
+      </button></a
+    >
+  </div>
+</div>
+<br />
+{% endblock containerHome %}

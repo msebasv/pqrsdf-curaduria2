@@ -76,6 +76,24 @@
           </div>
           <div class="card-body">
             <div class="row">
+              {% for estado, count in estado_counts.items %}
+              <div class="col-sm-6 col-md-4 col-lg-6 col-xl-6 col-xxl-2">
+                <div class="card card-state text-white bg-flat-color-1">
+                  <div class="card-body">
+                    <div class="card-left pt-1 float-left">
+                      <h3 class="mb-0 fw-r">
+                        <span class="count">{{ count }}</span>
+                      </h3>
+                      <p class="text-light mt-1 m-0">{{estado }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% endfor %}
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="row">
               <div class="col-sm-6 col-md-4 col-lg-6 col-xl-6 col-xxl-2">
                 <div class="card card-state text-white bg-flat-color-1">
                   <div class="card-body">
@@ -249,6 +267,29 @@
           {% comment %}
         </div>
         {% endcomment %}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="row">
+        {% for tipo, count in type_counts.items %}
+        <div class="col-sm-6 col-md-4 col-lg-6 col-xl-6 col-xxl-2">
+          <div class="card card-state">
+            <div class="card-body">
+              <div class="stat-widget-four">
+                <div class="stat-icon dib">
+                  <i class="ti-write text-muted"></i>
+                </div>
+                <div class="stat-content">
+                  <div class="text-left dib">
+                    <div class="stat-heading">{{tipo}}</div>
+                    <div class="stat-text">{{count}}</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {% endfor %}
       </div>
     </div>
   </div>

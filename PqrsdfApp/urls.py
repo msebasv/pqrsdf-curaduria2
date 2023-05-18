@@ -18,7 +18,7 @@ from django.urls import path, include, re_path
 from django.conf import settings
 from django.views.static import serve
 from django.contrib.auth.decorators import login_required
-from apps.pqrsdf.views import Home, Dashboard, CreatePqrsdfUser
+from apps.pqrsdf.views import Home, Dashboard, CreatePqrsdfUser, GetPqrsdfView
 from apps.user.views import Login, logoutUser
 
 urlpatterns = [
@@ -29,6 +29,7 @@ urlpatterns = [
     path('accounts/login/', Login.as_view(), name='login'),
     path('logout/', login_required(logoutUser), name='logout'),
     path('create_pqrsdf/', CreatePqrsdfUser.as_view(), name='create_pqrsdf'),
+    path('get_pqrsdf/<str:radicated>/', GetPqrsdfView.as_view(), name='get_pqrsdf')
 ]
 
 urlpatterns += [

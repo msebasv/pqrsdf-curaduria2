@@ -264,13 +264,15 @@
       <div class="container container-home">
         <div class="row">
           <div class="col col1 col-lg-12">
-            <form class="form-container">
+            <form class="form-container" method="GET">
               <label class="label-title"
                 >Consultar PQRSDF utilizando número de radicado:</label
               >
               <div class="input-group mb-3">
                 <input
                   type="text"
+                  name="radicated"
+                  id="pqrsdf-input"
                   placeholder="Número de radicado - PQRSDF"
                   class="input-pqrsdf form-control"
                 />
@@ -350,7 +352,7 @@
           <div class="col col2-footer col-md-6 col-12">
             <a href="https://www.gov.co/">
               <img
-                src="{% static 'img/COColombialogo.svg' %}"
+                src="{% static 'img/COColombiaLogo.svg' %}"
                 alt=""
                 class="co-colombia-logo"
               />
@@ -390,6 +392,46 @@
         </div>
       </div>
     </footer>
-    {% endblock body %} {% block extraJs %}{% endblock extraJs %}
+    {% endblock body %} {% block extraJs %}
+    <script>
+      const input = document.getElementById("pqrsdf-input");
+      const button = document.getElementById("button-addon2");
+      if (button) {
+        button.addEventListener("click", () => {
+          const radicated = input.value;
+          if (radicated.trim() !== "") {
+            window.location.href = `/get_pqrsdf/${radicated}/`;
+          } else {
+            console.log("Ingrese un número de radicado válido");
+          }
+        });
+      }
+
+      if (input) {
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            const radicated = input.value;
+            if (radicated.trim() !== "") {
+              window.location.href = `/get_pqrsdf/${radicated}/`;
+            } else {
+              console.log("Ingrese un número de radicado válido");
+            }
+          }
+        });
+      }
+
+            {% comment %} if (button) {
+              button.addEventListener("click", () => {
+                const radicated = input.value;
+                if (radicated.trim() !== "") {
+                  window.location.href = `/get_pqrsdf/${radicated}/`;
+                } else {
+                  console.log("Ingrese un número de radicado válido");
+                }
+              });
+            } {% endcomment %}
+    </script>
+    {% endblock extraJs %}
   </body>
 </html>

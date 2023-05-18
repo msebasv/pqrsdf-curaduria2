@@ -20,6 +20,30 @@ class Home(TemplateView):
 class Dashboard(TemplateView):
     template_name = 'dashboard.html'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        queryset = Pqrsdf.objects.all()
+        estado_counts = {
+            'Radicación': queryset.filter(state_actual=1).count(),
+            'Elaboración': queryset.filter(state_actual=2).count(),
+            'Revisión': queryset.filter(state_actual=3).count(),
+            'Finalizado': queryset.filter(state_actual=4).count(),
+            # You can add more states here if necessary
+        }
+        type_counts = {
+            'Petición':queryset.filter(type_pqrsdf=1).count(),
+            'Queja/Reclamo':queryset.filter(type_pqrsdf=2).count(),
+            'Solicitud de información':queryset.filter(type_pqrsdf=3).count(),
+            'Denuncia':queryset.filter(type_pqrsdf=4).count(),
+            'Sugerencia/Propuesta':queryset.filter(type_pqrsdf=5).count(),
+        }
+        context['estado_counts'] = estado_counts
+        context['type_counts'] = type_counts
+        return context
+
+
+
+
 class GetPqrsdfs(ListView):
     """Gets the list of pqrsdf
         Method: get_queryset
@@ -254,3 +278,16 @@ class CreatePqrsdfUser(CreateView):
             pqrsdf.file_id = pqrsdf_file
             pqrsdf.save()
         return response
+
+class GetPqrsdfView(View):
+    def get(self, request, radicated):
+        if radicated:
+            try:
+                pqrsdf = Pqrsdf.objects.get(radicated=radicated)
+                return render(request, 'get_pqrsdf.html', {'pqrsdf': pqrsdf})
+            except Pqrsdf.DoesNotExist:
+                error_message = 'PQRSDF no encontrada'
+        else:
+            error_message = 'Número de radicado inválido'
+
+        return render(request, 'get_pqrsdf.html', {'error_message': error_message})
